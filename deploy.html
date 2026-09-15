@@ -1,0 +1,185 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<script src="/config.js"></script>
+<title>Deploy · Stock Tips</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex">
+<link rel="icon" href="/assets/favicon.png">
+<link href="https://fonts.googleapis.com/css2?family=Young+Serif&family=Martian+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#07201a;--deep:#051610;--panel:#0c2a20;--line:#1d4c3a;--ink:#eaf5ee;--dim:#8fb3a3;--mint:#3ee58f;--gold:#f2c14e;--bad:#ff8080;--d:'Young Serif',Georgia,serif;--m:'Martian Mono',ui-monospace,monospace}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--bg);color:var(--ink);font:13px/1.7 var(--m);padding:clamp(16px,4vw,48px)}
+.in{width:min(900px,100%);margin:0 auto}
+h1{font:400 clamp(26px,5vw,44px)/1.1 var(--d)}
+h1 em{font-style:normal;color:var(--mint)}
+h2{font:400 17px var(--d);margin-bottom:6px}
+p.dim,.dim{color:var(--dim)}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:18px;margin-top:14px}
+.row{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.row + .row{margin-top:10px}
+.btn{height:40px;padding:0 16px;border-radius:11px;border:1px solid var(--line);background:#10382a;color:var(--ink);font:inherit;cursor:pointer;white-space:nowrap}
+.btn.em{background:var(--mint);color:#04180f;border-color:var(--mint);font-weight:600}
+.btn:disabled{opacity:.35;cursor:default}
+input{height:40px;border:1px solid var(--line);border-radius:11px;background:var(--deep);padding:0 12px;font:inherit;color:inherit;min-width:0;flex:1}
+input:focus{outline:0;border-color:var(--mint)}
+.st{word-break:break-all;font-size:12px}
+.ok{color:var(--mint)} .bad{color:var(--bad)} .gold{color:var(--gold)}
+pre{font:inherit;background:var(--deep);border:1px solid var(--line);border-radius:12px;padding:12px;margin-top:12px;white-space:pre-wrap;word-break:break-all;color:#bcd9c9}
+ol{margin:10px 0 0 18px;color:var(--dim)}
+a{color:var(--mint)}
+</style>
+</head>
+<body><div class="in">
+  <h1>Deploy <em>Stock Tips</em></h1>
+  <p class="dim" style="margin-top:10px">Three contracts on Robinhood Chain, in order. The wallet that deploys the factory becomes the guardian: it can pause new coins, cancel a pending binding and propose an oracle after a 48 hour notice. It can never touch a jar, its NVDA or its fees</p>
+
+  <div class="card">
+    <div class="row"><button class="btn em" id="connect">Connect wallet</button><span id="who" class="dim"></span></div>
+    <ol>
+      <li>Deploy the jar implementation, every jar is a clone of it</li>
+      <li>Deploy the burner, it receives 15% of every harvest</li>
+      <li>Deploy the factory with the oracle address that matches STIPS_ORACLE_KEY in Vercel</li>
+      <li>Put the factory and the burner into config.js and push</li>
+      <li>After $STIPS launches on Pons, set it on the burner, once and for good</li>
+    </ol>
+  </div>
+
+  <div class="card">
+    <h2>1 · Jar implementation</h2>
+    <p class="dim">No constructor, no owner. It is only a template</p>
+    <div class="row"><button class="btn" data-step="jar" disabled>Deploy TipJar</button><span class="st dim" id="s-jar"></span></div>
+  </div>
+
+  <div class="card">
+    <h2>2 · Burner</h2>
+    <p class="dim">Holds the burn share until $STIPS exists, then buys and sends it to dead. The deploying wallet can set the token once and nothing else</p>
+    <div class="row"><button class="btn" data-step="burner" disabled>Deploy TipBurner</button><span class="st dim" id="s-burner"></span></div>
+  </div>
+
+  <div class="card">
+    <h2>3 · Factory</h2>
+    <p class="dim">The oracle signs handle proofs. Use the address of the key you put in Vercel as STIPS_ORACLE_KEY, never a wallet you trade from</p>
+    <div class="row"><input id="oracleIn" placeholder="oracle address 0x…" autocomplete="off" spellcheck="false"></div>
+    <div class="row"><button class="btn" data-step="factory" disabled>Deploy TipFactory</button><span class="st dim" id="s-factory"></span></div>
+  </div>
+
+  <div class="card">
+    <h2>4 · config.js</h2>
+    <p class="dim">Paste these into config.js and push, the site reads them with no cache</p>
+    <pre id="out">connect to see the addresses</pre>
+  </div>
+
+  <div class="card">
+    <h2>5 · After $STIPS launches</h2>
+    <p class="dim">The token can be set once. Until it is set, the burner simply holds the ETH</p>
+    <div class="row"><input id="caIn" placeholder="$STIPS contract 0x…" autocomplete="off" spellcheck="false"><button class="btn" data-step="setStips" disabled>Set $STIPS</button></div>
+    <div class="st dim" id="s-setStips"></div>
+  </div>
+
+  <div class="card">
+    <h2>Guardian</h2>
+    <p class="dim">Pausing stops new coins only. Jars keep harvesting and paying out through a pause</p>
+    <div class="row"><button class="btn" data-step="pause" disabled>Pause new coins</button><button class="btn" data-step="unpause" disabled>Resume</button><span class="st dim" id="s-pause"></span></div>
+    <div class="row"><input id="oracleNext" placeholder="new oracle 0x…" autocomplete="off" spellcheck="false"><button class="btn" data-step="proposeOracle" disabled>Propose</button><button class="btn" data-step="activateOracle" disabled>Activate after 48h</button></div>
+    <div class="st dim" id="s-proposeOracle"></div>
+    <div class="st dim" id="s-activateOracle"></div>
+  </div>
+</div>
+
+<script type="module">
+import * as W from '/lib/wallet.js';
+import { explorer } from '/lib/chains.js';
+import { encodeDeployData } from 'https://cdn.jsdelivr.net/npm/viem@2.21.55/+esm';
+
+const $ = id => document.getElementById(id);
+const CHAIN = 4663;
+const get = n => fetch('/lib/abi/' + n + '.json?v=1').then(r => r.json());
+const [FC, JR, BN] = await Promise.all(['TipFactory', 'TipJar', 'TipBurner'].map(get));
+const isAddr = v => /^0x[0-9a-fA-F]{40}$/.test(v || '');
+let S = {}; try { S = JSON.parse(localStorage.getItem('stips:deploy') || '{}'); } catch {}
+const save = () => { try { localStorage.setItem('stips:deploy', JSON.stringify(S)); } catch {} };
+const link = (kind, v) => `<a href="${explorer(CHAIN, kind, v)}" target="_blank" rel="noopener">${v}</a>`;
+
+async function wait(el, tx) {
+  el.innerHTML = `sent · ${link('tx', tx.hash)} · waiting…`;
+  const rc = await tx.wait();
+  if (rc.status !== 'success') throw Error('Transaction failed');
+  return rc;
+}
+async function hasCode(a) { const c = await W.pubs[CHAIN].getCode({ address: a }).catch(() => null); return !!c && c !== '0x'; }
+
+async function paint() {
+  const w = W.state();
+  $('who').textContent = w.address ? W.short(w.address) + ' · chain ' + (w.chainId || '?') : '';
+  document.querySelectorAll('[data-step]').forEach(b => b.disabled = !w.address);
+  if (S.jar) $('s-jar').innerHTML = link('address', S.jar);
+  if (S.burner) $('s-burner').innerHTML = link('address', S.burner);
+  if (S.factory) $('s-factory').innerHTML = link('address', S.factory);
+  if (!w.address) return;
+  if (S.factory && await hasCode(S.factory)) {
+    const [guardian, oracle, paused] = await Promise.all(['guardian', 'oracle', 'paused'].map(f =>
+      W.pubs[CHAIN].readContract({ address: S.factory, abi: FC.abi, functionName: f }).catch(() => null)));
+    $('s-factory').innerHTML = link('address', S.factory) + `<br>guardian ${W.short(guardian || '')} · oracle ${W.short(oracle || '')} · ${paused ? '<span class="gold">paused</span>' : '<span class="ok">open</span>'}`;
+  }
+  $('out').textContent = 'window.STIPS_FACTORY = "' + (S.factory || '') + '";\nwindow.STIPS_BURNER  = "' + (S.burner || '') + '";';
+}
+
+const steps = {
+  jar: async el => {
+    if (S.jar && !confirm('A jar implementation is already deployed from this browser. Deploy a new one?')) return;
+    el.textContent = 'confirm in wallet…';
+    const rc = await wait(el, await W.sendTx(CHAIN, { data: JR.bytecode }));
+    S.jar = rc.contractAddress;
+  },
+  burner: async el => {
+    if (S.burner && !confirm('A burner is already deployed from this browser. Deploy a new one?')) return;
+    el.textContent = 'confirm in wallet…';
+    const rc = await wait(el, await W.sendTx(CHAIN, { data: BN.bytecode }));
+    S.burner = rc.contractAddress;
+  },
+  factory: async el => {
+    const oracle = $('oracleIn').value.trim();
+    if (!isAddr(S.jar)) throw Error('Deploy the jar implementation first');
+    if (!isAddr(S.burner)) throw Error('Deploy the burner first');
+    if (!isAddr(oracle)) throw Error('Enter the oracle address');
+    if (S.factory && !confirm('A factory is already deployed from this browser. Deploy a new one?')) return;
+    el.textContent = 'confirm in wallet…';
+    const data = encodeDeployData({ abi: FC.abi, bytecode: FC.bytecode, args: [S.jar, oracle, S.burner] });
+    const rc = await wait(el, await W.sendTx(CHAIN, { data }));
+    S.factory = rc.contractAddress;
+  },
+  setStips: async el => {
+    const v = $('caIn').value.trim();
+    if (!isAddr(S.burner)) throw Error('Deploy the burner first');
+    if (!isAddr(v)) throw Error('Enter the $STIPS address');
+    el.textContent = 'confirm in wallet…';
+    await wait(el, await W.send(CHAIN, { address: S.burner, abi: BN.abi, functionName: 'setStips', args: [v] }));
+    el.innerHTML = '<span class="ok">$STIPS set, the burner can buy and burn now</span>';
+  },
+  pause: async el => { el.textContent = 'confirm in wallet…'; await wait(el, await W.send(CHAIN, { address: S.factory, abi: FC.abi, functionName: 'setPaused', args: [true] })); el.innerHTML = '<span class="gold">new coins paused</span>'; },
+  unpause: async el => { el.textContent = 'confirm in wallet…'; await wait(el, await W.send(CHAIN, { address: S.factory, abi: FC.abi, functionName: 'setPaused', args: [false] })); el.innerHTML = '<span class="ok">open again</span>'; },
+  proposeOracle: async el => {
+    const v = $('oracleNext').value.trim();
+    if (!isAddr(v)) throw Error('Enter the new oracle address');
+    el.textContent = 'confirm in wallet…';
+    await wait(el, await W.send(CHAIN, { address: S.factory, abi: FC.abi, functionName: 'proposeOracle', args: [v] }));
+    el.innerHTML = '<span class="gold">proposed, anyone can activate it in 48 hours</span>';
+  },
+  activateOracle: async el => { el.textContent = 'confirm in wallet…'; await wait(el, await W.send(CHAIN, { address: S.factory, abi: FC.abi, functionName: 'activateOracle' })); el.innerHTML = '<span class="ok">oracle active</span>'; }
+};
+
+document.querySelectorAll('[data-step]').forEach(b => b.onclick = async () => {
+  const k = b.dataset.step, el = $('s-' + (k === 'unpause' ? 'pause' : k));
+  b.disabled = true;
+  try { await steps[k](el); save(); } catch (e) { el.innerHTML = '<span class="bad">' + (e.shortMessage || e.message || e) + '</span>'; }
+  await paint();
+});
+$('connect').onclick = () => W.connect().then(paint).catch(e => alert(e.shortMessage || e.message));
+W.onChange(paint);
+W.restore().then(paint);
+</script>
+</body>
+</html>

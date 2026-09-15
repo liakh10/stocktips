@@ -1,0 +1,4 @@
+/contracts
+/dev.mjs
+/test-api.mjs
+/.env.local

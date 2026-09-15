@@ -1,0 +1,269 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<script src="/config.js"></script>
+<title>Stock Tips · field manual</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" content="How Stock Tips works: the coins, the jars, the 15% burn, the claim with its 48 hour wait, and what the guardian can and cannot do">
+<meta property="og:image" content="/assets/og.png">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="/assets/favicon.png">
+<link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Young+Serif&family=Martian+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#07201a;--deep:#051610;--panel:#0c2a20;--panel2:#10382a;--line:#1d4c3a;--ink:#eaf5ee;--dim:#8fb3a3;--mint:#3ee58f;--gold:#f2c14e;--paper:#f6f1e3;--d:'Young Serif',Georgia,serif;--m:'Martian Mono',ui-monospace,monospace}
+*{box-sizing:border-box}
+html{overflow-x:hidden;scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--ink);font:13.5px/1.75 var(--m);background-image:radial-gradient(800px 460px at 90% -10%,rgba(62,229,143,.13),transparent 60%)}
+[hidden]{display:none!important}
+a{color:inherit}
+img{max-width:100%;display:block}
+.top{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;background:rgba(7,32,26,.92);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+.top .in{width:min(1140px,100%);margin:0 auto;padding:0 max(16px,env(safe-area-inset-left));display:flex;align-items:center;gap:14px;height:60px}
+.brand{display:flex;align-items:center;gap:10px;text-decoration:none}
+.brand img{width:32px;height:32px;border-radius:9px}
+.brand b{font:400 19px var(--d)}
+.chip{font-size:9.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--gold);border:1px solid rgba(242,193,78,.4);border-radius:999px;padding:3px 9px}
+.top .r{margin-left:auto;display:flex;gap:8px;align-items:center}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;height:34px;padding:0 13px;border-radius:10px;border:1px solid var(--line);background:var(--panel2);color:var(--ink);font:500 11.5px var(--m);letter-spacing:.05em;text-transform:uppercase;cursor:pointer;text-decoration:none;white-space:nowrap}
+.btn:hover{border-color:var(--mint)}
+.btn.mint{background:linear-gradient(180deg,#4ff29c,#22c977);border-color:#4ff29c;color:#04180f;font-weight:600}
+.icon{width:34px;height:34px;border-radius:9px;border:1px solid var(--line);display:grid;place-items:center}
+.page{width:min(1140px,100%);margin:0 auto;padding:0 max(16px,env(safe-area-inset-left));display:grid;grid-template-columns:230px 1fr;gap:34px;align-items:start}
+nav.toc{position:sticky;top:96px;padding:28px 0 40px}
+nav.toc ol{list-style:none;margin:0;padding:0;border-left:1px solid var(--line)}
+nav.toc a{display:block;padding:5px 0 5px 14px;margin-left:-1px;border-left:1px solid transparent;color:var(--dim);text-decoration:none;font-size:11.5px;letter-spacing:.05em;text-transform:uppercase}
+nav.toc a:hover{color:var(--ink)}
+nav.toc a.on{color:var(--mint);border-left-color:var(--mint)}
+main{padding:28px 0 60px;min-width:0}
+h1{margin:0 0 6px;font:400 clamp(30px,5vw,50px)/1.1 var(--d)}
+.lede{color:var(--dim);max-width:60ch;margin:0 0 30px}
+section{scroll-margin-top:84px;padding:26px 0;border-top:1px solid var(--line)}
+section:first-of-type{border-top:0;padding-top:6px}
+h2{margin:0 0 12px;font:400 clamp(21px,3vw,30px)/1.15 var(--d)}
+h3{margin:22px 0 8px;font:500 11.5px var(--m);letter-spacing:.1em;text-transform:uppercase;color:var(--gold)}
+p{margin:0 0 12px;max-width:66ch;color:#cfe3d8}
+.kv{border:1px solid var(--line);border-radius:14px;background:var(--panel);overflow:hidden;margin:12px 0}
+.kv div{display:flex;justify-content:space-between;gap:14px;padding:9px 14px;border-bottom:1px solid rgba(29,76,58,.6);font-size:12.5px}
+.kv div:last-child{border-bottom:0}
+.kv span{color:var(--dim);text-transform:uppercase;letter-spacing:.07em;font-size:10.5px;padding-top:2px}
+.kv b{font-weight:500;text-align:right;word-break:break-word}
+pre{font:inherit;background:var(--deep);border:1px solid var(--line);border-radius:14px;padding:14px;overflow-x:auto;color:#bcd9c9;margin:12px 0}
+ul{margin:0 0 12px;padding-left:18px;max-width:66ch;color:#cfe3d8}
+li{margin-bottom:5px}
+.note{border-left:2px solid var(--gold);padding-left:12px;color:var(--dim);margin:14px 0;max-width:62ch}
+.slip{width:min(520px,100%);background:var(--paper);color:#21201c;border-radius:6px;padding:22px 20px 26px;position:relative;box-shadow:0 22px 50px rgba(0,0,0,.4);cursor:pointer;margin:16px 0 8px}
+.slip::before,.slip::after{content:"";position:absolute;left:0;right:0;height:12px;background:repeating-linear-gradient(90deg,var(--paper) 0 14px,transparent 14px 28px)}
+.slip::before{top:-6px}
+.slip::after{bottom:-6px}
+.slip h3{margin:0;color:#21201c;font:400 20px var(--d);text-align:center;letter-spacing:.02em;text-transform:none}
+.slip .line{border-top:1px dashed #b9b2a0;margin:12px 0}
+.slip .row{display:flex;justify-content:space-between;font-size:12px;gap:10px}
+.slip .ca{margin-top:12px;text-align:center;font-size:clamp(10px,2.3vw,14px);word-break:break-all;font-weight:500}
+.slip .ca.soon{font:400 30px var(--d)}
+.slip .copy{display:block;margin:10px auto 0;background:none;border:0;color:#1d6b46;font:500 11.5px var(--m);letter-spacing:.14em;cursor:pointer}
+@media (max-width:900px){.page{grid-template-columns:1fr;gap:0}nav.toc{position:static;padding:22px 0 0}nav.toc ol{display:flex;flex-wrap:wrap;gap:4px;border-left:0}nav.toc a{border:1px solid var(--line);border-radius:999px;padding:4px 11px;margin:0}nav.toc a.on{border-color:var(--mint)}}
+@media (max-width:620px){.top .r .btn.hideSm{display:none}}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}*{transition:none!important;animation:none!important}}
+</style>
+</head>
+<body>
+<header class="top"><div class="in">
+  <a class="brand" href="/"><img src="/assets/favicon.png" alt=""><b>Stock Tips</b></a>
+  <span class="chip">Field manual</span>
+  <div class="r">
+    <a class="btn hideSm" href="/">Jars</a>
+    <a class="btn mint" id="buyLink" target="_blank" rel="noopener">Buy</a>
+    <a class="icon" id="xLink" target="_blank" rel="noopener" aria-label="X"><svg viewBox="0 0 24 24" width="14" height="14" aria-hidden="true"><path fill="currentColor" d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg></a>
+    <a class="btn" id="chartLink" target="_blank" rel="noopener">Chart</a>
+  </div>
+</div></header>
+
+<div class="page">
+<nav class="toc"><ol>
+  <li><a href="#what">What it is</a></li>
+  <li><a href="#coin">The coin</a></li>
+  <li><a href="#jar">The jar</a></li>
+  <li><a href="#harvest">Harvest</a></li>
+  <li><a href="#claim">Claiming</a></li>
+  <li><a href="#stips">$STIPS</a></li>
+  <li><a href="#guardian">The guardian</a></li>
+  <li><a href="#addresses">Addresses</a></li>
+  <li><a href="#faq">FAQ</a></li>
+</ol></nav>
+
+<main>
+  <h1>Stock Tips</h1>
+  <p class="lede">Anyone can open a coin for any X handle on Robinhood Chain. The coin's creator fees do not go to whoever opened it, they go into a jar that belongs to the handle, and the jar keeps buying NVDA until the handle comes to take it</p>
+
+  <section id="what">
+    <h2>What it is</h2>
+    <p>Two contracts and one idea. The factory opens Pons coins named after X handles. Each handle gets a jar, and the jar is set as the Pons creator fee recipient of every coin that was ever opened for that handle</p>
+    <p>Nobody has to trust the person who opened the coin. They pay the Pons launch fee and gas, and that is the whole of their involvement: the fee stream is pointed at the jar in the same transaction that creates the coin, and there is no function anywhere that redirects it</p>
+    <div class="kv">
+      <div><span>Chain</span><b>Robinhood Chain, 4663</b></div>
+      <div><span>Launchpad</span><b>Pons V2</b></div>
+      <div><span>What the jar holds</span><b>NVDA, the Robinhood Chain stock token</b></div>
+      <div><span>Who can open a coin</span><b>anyone, for any handle</b></div>
+      <div><span>Who can empty a jar</span><b>only the handle, after proving it</b></div>
+    </div>
+  </section>
+
+  <section id="coin">
+    <h2>The coin</h2>
+    <p>One call, <b>openCoin</b>, with the handle, a name, a ticker, a logo and a description. It costs exactly the Pons launch fee, currently 0.0005 ETH, plus gas</p>
+    <pre>openCoin("vladtenev", "Vlad Tips", "VLAD", logo, description)
+├── jar of vladtenev        created the first time, reused after that
+├── Pons launch             creator fee recipient = the jar
+├── creator tax             3%, fixed in the contract, nobody can change it
+└── socials.twitter         https://x.com/vladtenev</pre>
+    <p>The 3% creator tax and Pons' own 1% curve fee both end up with the creator, which here means the jar: Pons keeps 30% of the curve fee and passes the other 70% on. On 1 ETH of trading that is about 0.037 ETH into the jar</p>
+    <p>A handle can have any number of coins. They all feed the same jar, so a second coin does not split anything</p>
+    <div class="note">Opening a coin for someone is not an endorsement by them. Until the handle claims its jar nobody can move what is inside, including you, including us</div>
+  </section>
+
+  <section id="jar">
+    <h2>The jar</h2>
+    <p>One jar per handle, deployed as a minimal clone the first time anyone opens a coin for that handle. Its address is derived from nothing secret, and the site reaches it at <b>/@handle</b></p>
+    <div class="kv">
+      <div><span>Burn share</span><b>15% of every harvest</b></div>
+      <div><span>Bought with the rest</span><b>NVDA</b></div>
+      <div><span>Price guard</span><b>Chainlink NVDA/USD and ETH/USD, minus 2%</b></div>
+      <div><span>Stale feed</span><b>the ETH simply waits for the next harvest</b></div>
+      <div><span>Per harvest cap</span><b>1 ETH, the rest rolls over</b></div>
+      <div><span>Withdraw function</span><b>none</b></div>
+    </div>
+    <p>There is no owner on a jar, no upgrade, no proxy admin and no rescue call. The only address that can ever receive from it is the wallet the handle bound, and the only other outflows are the burner's 15% and the NVDA purchase itself</p>
+  </section>
+
+  <section id="harvest">
+    <h2>Harvest</h2>
+    <p>Fees do not walk to the jar on their own. Pons holds them on the curve until the deployer sweeps, and holds them in its escrow until the recipient claims. Both steps are open to anyone here</p>
+    <pre>sweepAndHarvest([token, token, …])
+├── 1  jar sweeps its curve            curve fee + creator tax → Pons escrow
+├── 2  jar claims the escrow           → the jar's own balance
+├── 3  15% to the burner               → bought and burned as $STIPS
+├── 4  the rest buys NVDA              Uniswap V3 WETH/NVDA, minOut from Chainlink
+└── 5  if the jar is claimed           everything is sent to the handle's wallet</pre>
+    <p>The button on the site does exactly this call, and so does the keeper that runs every half hour. The keeper is a convenience, not a dependency: it holds no permission the page does not also give you</p>
+  </section>
+
+  <section id="claim">
+    <h2>Claiming</h2>
+    <p>Proving a handle without the X API. The handle publishes a post containing a one hour code and the full wallet address, the site reads that post back through fxtwitter, and the oracle signs the pair of them</p>
+    <pre>claim
+├── code      the site issues a code tied to handle + wallet, valid one hour
+├── post      the handle publishes it, the post must be under two hours old
+├── verify    author, code and wallet are checked, then the oracle signs
+├── bind      the signature starts a 48 hour wait, on chain
+├── wait      the guardian or the current wallet can cancel during it
+└── confirm   after 48 hours the wallet is set and payout is open</pre>
+    <p>The wait is the point. A signature alone cannot take a jar: if the oracle key ever leaked, every attempt it signed would sit in public for two days before it could receive anything, and either the guardian or the handle can cancel it</p>
+    <p>Once confirmed, the wallet keeps receiving: every later harvest pays out in the same transaction, and anyone can call payout to push what is already there</p>
+    <p>Changing the wallet later uses the same route, code, post, 48 hours, and the wallet in place can cancel a binding it did not start</p>
+  </section>
+
+  <section id="stips">
+    <h2>$STIPS</h2>
+    <p>The jars keep 85%. The other 15% of every harvest goes to one burner contract, which buys $STIPS and sends it to the dead address. The share is enforced by the jar, not promised in a post</p>
+    <div class="kv">
+      <div><span>Burn share</span><b>15% of every harvest, on chain</b></div>
+      <div><span>Route</span><b>the Pons curve, or the Uniswap v4 pool after graduation</b></div>
+      <div><span>Per call cap</span><b>0.25 ETH</b></div>
+      <div><span>Destination</span><b>0x…dEaD</b></div>
+      <div><span>Withdraw function</span><b>none, the token can be set once</b></div>
+    </div>
+    <p>$STIPS has no tax of its own and no privileges inside the protocol. It is what the fee share buys, nothing else</p>
+  </section>
+
+  <section id="guardian">
+    <h2>The guardian</h2>
+    <p>One role exists, and what it cannot do matters more than what it can</p>
+    <div class="kv">
+      <div><span>Can</span><b>pause new coins</b></div>
+      <div><span>Can</span><b>cancel a pending binding during the 48 hours</b></div>
+      <div><span>Can</span><b>propose a new oracle, active only after a public 48 hour notice</b></div>
+      <div><span>Cannot</span><b>touch a jar, its NVDA, its ETH or its fee stream</b></div>
+      <div><span>Cannot</span><b>change the 3% creator tax or the 15% burn share</b></div>
+      <div><span>Cannot</span><b>bind a wallet, only cancel one</b></div>
+    </div>
+    <p>Pausing stops new coins from being opened. Jars keep harvesting and paying out through a pause, because neither call goes through the factory</p>
+  </section>
+
+  <section id="addresses">
+    <h2>Addresses</h2>
+    <div class="kv">
+      <div><span>Factory</span><b id="aFactory">not deployed yet</b></div>
+      <div><span>Burner</span><b id="aBurner">not deployed yet</b></div>
+      <div><span>NVDA</span><b>0xd0601CE157Db5bdC3162BbaC2a2C8aF5320D9EEC</b></div>
+      <div><span>Pons factory</span><b>0x7eD598BcEf8bd9Edd8C97A195C6d13f40801EC7e</b></div>
+      <div><span>Pons fee escrow</span><b>0xd3AFEB2a57f70eF218Aa82451c51B2fb0416Ac9e</b></div>
+      <div><span>NVDA / USD feed</span><b>0x379EC4f7C378F34a1B47E4F3cbeBCbAC3E8E9F15</b></div>
+      <div><span>ETH / USD feed</span><b>0x78F3556b67E17Df817D51Ef5a990cDaF09E8d3A9</b></div>
+    </div>
+
+    <div class="slip" id="slip" role="button" tabindex="0" aria-label="Copy contract address">
+      <h3>Stock Tips</h3>
+      <div class="line"></div>
+      <div class="row"><span>TICKER</span><span>$STIPS</span></div>
+      <div class="row"><span>CHAIN</span><span>Robinhood Chain</span></div>
+      <div class="row"><span>LAUNCHPAD</span><span>Pons</span></div>
+      <div class="line"></div>
+      <div class="row"><span>CONTRACT</span><span id="slipState"></span></div>
+      <div class="ca" id="caAddr"></div>
+      <button class="copy" id="caCopy" type="button">[ COPY ]</button>
+    </div>
+  </section>
+
+  <section id="faq">
+    <h2>FAQ</h2>
+    <h3>Someone opened a coin for me, what now</h3>
+    <p>Nothing, unless you want it. The jar fills whether or not you ever appear. When you do, open /@yourhandle, get a code, post it and wait two days</p>
+    <h3>Can the opener take the fees</h3>
+    <p>No. The fee recipient is set to the jar in the launch transaction and there is no call to change it, for them, for the guardian or for anyone else</p>
+    <h3>Why NVDA and not ETH</h3>
+    <p>Because a tip jar that sits in ETH is a bet on ETH. NVDA is a real stock token on this chain with a Chainlink feed, so the purchase can be price checked on chain</p>
+    <h3>What if a coin graduates to Uniswap</h3>
+    <p>Sweeping stops, since there is no curve left, but the escrow claim and everything after it keeps working</p>
+    <h3>What if nobody runs the keeper</h3>
+    <p>Then you run it. Sweep and harvest are open calls and the button on any jar page does them from your own wallet</p>
+    <h3>Can I get my launch fee back</h3>
+    <p>No. It goes to Pons, not to us, and opening a coin for a handle is a gift to that handle by design</p>
+  </section>
+</main>
+</div>
+
+<script type="module">
+const $ = id => document.getElementById(id);
+const S = window.SITE, CA = /^0x[0-9a-fA-F]{40}$/.test(S.CA) ? S.CA : null;
+const addr = v => /^0x[0-9a-fA-F]{40}$/.test(v || '') ? v : null;
+$('xLink').href = S.X_URL;
+$('buyLink').href = CA ? 'https://www.ponsfamily.com/launchpad/' + CA : window.PONS_HOME;
+$('chartLink').href = CA ? 'https://dexscreener.com/robinhood/' + CA : window.DEX_HOME;
+if (addr(window.STIPS_FACTORY)) $('aFactory').textContent = window.STIPS_FACTORY;
+if (addr(window.STIPS_BURNER)) $('aBurner').textContent = window.STIPS_BURNER;
+$('caAddr').textContent = CA || 'soon';
+$('caAddr').classList.toggle('soon', !CA);
+$('slipState').textContent = CA ? 'live' : 'not launched yet';
+async function copyCA(e) {
+  if (e) e.stopPropagation();
+  const b = $('caCopy');
+  if (!CA) b.textContent = '[ NOT YET ]';
+  else { try { await navigator.clipboard.writeText(CA); b.textContent = '[ COPIED ]'; } catch { b.textContent = '[ COPY FAILED ]'; } }
+  setTimeout(() => b.textContent = '[ COPY ]', 1400);
+}
+$('caCopy').onclick = copyCA;
+$('slip').addEventListener('click', e => { if (!e.target.closest('a')) copyCA(); });
+$('slip').addEventListener('keydown', e => { if (e.key === 'Enter') copyCA(); });
+
+const links = [...document.querySelectorAll('nav.toc a')];
+const spy = new IntersectionObserver(es => {
+  es.forEach(e => { if (e.isIntersecting) links.forEach(a => a.classList.toggle('on', a.getAttribute('href') === '#' + e.target.id)); });
+}, { rootMargin: '-84px 0px -65% 0px' });
+document.querySelectorAll('section').forEach(s => spy.observe(s));
+</script>
+</body>
+</html>

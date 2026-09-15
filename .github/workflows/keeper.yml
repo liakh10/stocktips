@@ -1,0 +1,13 @@
+name: keeper
+on:
+  schedule:
+    - cron: '*/30 * * * *'
+  workflow_dispatch: {}
+jobs:
+  tick:
+    runs-on: ubuntu-latest
+    timeout-minutes: 3
+    steps:
+      - name: Sweep the curves, harvest the jars, burn $STIPS
+        run: |
+          curl -sS --max-time 90 -H "Authorization: Bearer ${{ secrets.CRON_SECRET }}" https://stocktips.vercel.app/api/tick

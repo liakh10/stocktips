@@ -1,0 +1,7 @@
+{
+  "contractName": "PonsAddrs",
+  "compiler": "0.8.37+commit.f401782d.Emscripten.clang",
+  "abi": [],
+  "bytecode": "0x6080806040523460175760399081601c823930815050f35b5f80fdfe5f80fdfea264697066735822122029411a9bfc67fc82df62bcb92e6e15568e6ee7bd63aac88d980eb3884baa200464736f6c63430008250033",
+  "deployedSize": 57
+}

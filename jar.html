@@ -1,0 +1,312 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<script src="/config.js"></script>
+<title>Stock Tips jar</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" content="The Stock Tips jar of an X handle: what the coins earned, what it holds in NVDA, and how the handle claims it">
+<meta property="og:image" content="/assets/og.png">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="/assets/favicon.png">
+<link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Young+Serif&family=Martian+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#07201a;--deep:#051610;--panel:#0c2a20;--panel2:#10382a;--line:#1d4c3a;--ink:#eaf5ee;--dim:#8fb3a3;--mint:#3ee58f;--gold:#f2c14e;--bad:#ff8080;--d:'Young Serif',Georgia,serif;--m:'Martian Mono',ui-monospace,monospace}
+*{box-sizing:border-box}
+html{overflow-x:hidden}
+body{margin:0;background:var(--bg);color:var(--ink);font:13.5px/1.65 var(--m);background-image:radial-gradient(900px 520px at 80% -10%,rgba(62,229,143,.16),transparent 60%)}
+[hidden]{display:none!important}
+a{color:inherit}
+img{max-width:100%;display:block}
+button,input{font:inherit;color:inherit}
+.wrap{width:min(980px,100%);margin:0 auto;padding:0 max(16px,env(safe-area-inset-left))}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;height:42px;padding:0 18px;border-radius:12px;border:1px solid var(--line);background:var(--panel2);color:var(--ink);font:500 12.5px var(--m);letter-spacing:.04em;text-transform:uppercase;cursor:pointer;text-decoration:none;white-space:nowrap}
+.btn:hover{border-color:var(--mint)}
+.btn.mint{background:linear-gradient(180deg,#4ff29c,#22c977);border-color:#4ff29c;color:#04180f;font-weight:600}
+.btn.sm{height:34px;padding:0 12px;font-size:11.5px}
+.btn:disabled{opacity:.45;cursor:not-allowed}
+.top{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;background:rgba(7,32,26,.9);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+.top .wrap{display:flex;align-items:center;gap:16px;height:60px}
+.brand{display:flex;align-items:center;gap:10px;text-decoration:none}
+.brand img{width:32px;height:32px;border-radius:9px}
+.brand b{font:400 19px var(--d)}
+.top .r{margin-left:auto;display:flex;gap:8px;align-items:center}
+.icon{width:34px;height:34px;border-radius:9px;border:1px solid var(--line);display:grid;place-items:center}
+.head{display:flex;gap:18px;align-items:center;padding:36px 0 22px;flex-wrap:wrap}
+.head img{width:88px;height:88px;border-radius:50%;background:var(--deep);border:1px solid var(--line)}
+.head h1{margin:0;font:400 clamp(28px,5vw,44px)/1.1 var(--d);word-break:break-word}
+.head a.x{color:var(--dim);text-decoration:none;font-size:12px}
+.head a.x:hover{color:var(--mint)}
+.pill{display:inline-block;font-size:10px;text-transform:uppercase;letter-spacing:.09em;border:1px solid var(--line);border-radius:999px;padding:3px 10px;color:var(--dim);margin-top:8px}
+.pill.ok{color:var(--mint);border-color:rgba(62,229,143,.5)}
+.pill.wait{color:var(--gold);border-color:rgba(242,193,78,.5)}
+.grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:18px}
+.stat{border:1px solid var(--line);border-radius:14px;padding:13px;background:var(--panel)}
+.stat span{display:block;font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--dim)}
+.stat b{font:400 21px var(--d)}
+.box{border:1px solid var(--line);border-radius:18px;padding:18px;background:linear-gradient(180deg,var(--panel2),var(--panel));margin-bottom:14px}
+.box h2{margin:0 0 4px;font:400 20px var(--d)}
+.box p.sub{margin:0 0 14px;color:var(--dim);font-size:12.5px}
+.row{display:flex;justify-content:space-between;gap:12px;padding:7px 0;border-bottom:1px dashed rgba(29,76,58,.7);font-size:12.5px}
+.row:last-child{border-bottom:0}
+.row span{color:var(--dim)}
+.acts{display:flex;gap:8px;flex-wrap:wrap;margin-top:14px}
+.err{color:var(--bad);font-size:12px;min-height:18px;margin-top:8px}
+.ok{color:var(--mint)}
+.step{border-top:1px solid var(--line);padding-top:14px;margin-top:14px}
+.step h3{margin:0 0 6px;font:500 11.5px var(--m);letter-spacing:.09em;text-transform:uppercase;color:var(--gold)}
+.post{border:1px solid var(--line);border-radius:12px;background:var(--deep);padding:12px;white-space:pre-wrap;word-break:break-word;font-size:12.5px;margin:10px 0}
+input.t{width:100%;height:42px;border:1px solid var(--line);border-radius:11px;background:var(--deep);padding:0 12px;outline:0}
+input.t:focus{border-color:var(--mint)}
+.coins{display:grid;gap:8px}
+.coin{display:flex;gap:12px;align-items:center;border:1px solid var(--line);border-radius:13px;padding:11px 13px;background:var(--panel);text-decoration:none;min-width:0}
+.coin:hover{border-color:var(--mint)}
+.coin b{font-weight:500}
+.coin .g{flex:1;min-width:0}
+.coin small{display:block;color:var(--dim);font-size:11px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.bar{height:5px;border-radius:999px;background:var(--deep);overflow:hidden;margin-top:6px}
+.bar i{display:block;height:100%;background:linear-gradient(90deg,var(--mint),var(--gold))}
+.foot{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;padding:40px 0 70px}
+@media (max-width:780px){.grid{grid-template-columns:repeat(2,1fr)}}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+</style>
+</head>
+<body>
+<header class="top"><div class="wrap">
+  <a class="brand" href="/"><img src="/assets/favicon.png" alt=""><b>Stock Tips</b></a>
+  <div class="r">
+    <a class="btn sm" href="/docs">Docs</a>
+    <a class="icon" id="xTop" target="_blank" rel="noopener" aria-label="X"><svg viewBox="0 0 24 24" width="14" height="14" aria-hidden="true"><path fill="currentColor" d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg></a>
+    <button class="btn sm mint" id="connect">Connect</button>
+  </div>
+</div></header>
+
+<main class="wrap">
+  <div class="head">
+    <img id="pfp" alt="" onerror="this.style.visibility='hidden'">
+    <div>
+      <h1 id="title">@</h1>
+      <a class="x" id="xHandle" target="_blank" rel="noopener">View on X</a>
+      <div><span class="pill" id="status">Reading the chain</span></div>
+    </div>
+  </div>
+
+  <div class="grid">
+    <div class="stat"><span>In the jar</span><b id="sNvda">·</b></div>
+    <div class="stat"><span>Worth</span><b id="sUsd">·</b></div>
+    <div class="stat"><span>Waiting on the curves</span><b id="sPend">·</b></div>
+    <div class="stat"><span>Coins</span><b id="sCoins">·</b></div>
+  </div>
+
+  <div class="box">
+    <h2>The jar</h2>
+    <p class="sub">Anyone can move the fees along; only the handle can ever take what is inside</p>
+    <div class="row"><span>Jar contract</span><a id="jarAddr" target="_blank" rel="noopener">·</a></div>
+    <div class="row"><span>Claimed from Pons so far</span><b id="rClaimed">·</b></div>
+    <div class="row"><span>NVDA bought so far</span><b id="rBought">·</b></div>
+    <div class="row"><span>Sent to the handle</span><b id="rPaid">·</b></div>
+    <div class="row"><span>Burned into $STIPS</span><b id="rBurn">15% of every harvest</b></div>
+    <div class="acts">
+      <button class="btn mint" id="bHarvest">Sweep and harvest</button>
+      <button class="btn" id="bPayout" hidden>Send to the handle</button>
+    </div>
+    <div class="err" id="jarErr"></div>
+  </div>
+
+  <div class="box" id="claimBox">
+    <h2>Claim this jar</h2>
+    <p class="sub" id="claimSub">Only from the X account itself, with a public post and a 48 hour wait</p>
+    <div id="claimBody">
+      <div class="step">
+        <h3>Step 1 · the wallet</h3>
+        <p class="sub" id="cWallet">Connect the wallet that should receive the jar</p>
+        <button class="btn" id="bCode">Get my code</button>
+      </div>
+      <div class="step" id="step2" hidden>
+        <h3>Step 2 · the post</h3>
+        <p class="sub">Publish this exactly, from @<span id="cHandle"></span>, then paste the link to it</p>
+        <div class="post" id="cText"></div>
+        <div class="acts" style="margin:0 0 12px">
+          <a class="btn mint" id="cIntent" target="_blank" rel="noopener">Post it on X</a>
+          <button class="btn sm" id="cCopy">Copy the text</button>
+        </div>
+        <input class="t" id="cUrl" placeholder="https://x.com/handle/status/…" autocomplete="off" spellcheck="false">
+        <div class="acts"><button class="btn" id="bVerify">Check my post</button></div>
+      </div>
+      <div class="step" id="step3" hidden>
+        <h3>Step 3 · the wait</h3>
+        <p class="sub" id="cWait"></p>
+        <div class="acts"><button class="btn mint" id="bConfirm">Confirm the wallet</button></div>
+      </div>
+    </div>
+    <div class="err" id="cErr"></div>
+  </div>
+
+  <div class="box">
+    <h2>Coins for this handle</h2>
+    <p class="sub">Every coin anyone opened, newest first. Their creator fees all land in this jar</p>
+    <div class="coins" id="coinList">Reading the chain</div>
+    <div class="acts"><a class="btn" href="/#open">Open another coin</a></div>
+  </div>
+
+  <div class="foot">
+    <a class="btn mint" id="buyLink" target="_blank" rel="noopener">Buy $STIPS</a>
+    <a class="btn" href="/">All jars</a>
+    <a class="btn" href="/docs">Docs</a>
+  </div>
+</main>
+
+<script type="module">
+import * as W from '/lib/wallet.js';
+import * as T from '/lib/tips.js';
+
+const $ = id => document.getElementById(id);
+const esc = s => String(s == null ? '' : s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+const S = window.SITE, CA = /^0x[0-9a-fA-F]{40}$/.test(S.CA) ? S.CA : null;
+const ZERO = '0x0000000000000000000000000000000000000000';
+const handle = T.cleanHandle(decodeURIComponent(location.pathname).replace(/^\/@?/, ''));
+let jar = null, coins = [], claim = null;
+
+$('xTop').href = S.X_URL;
+$('buyLink').href = CA ? 'https://www.ponsfamily.com/launchpad/' + CA : window.PONS_HOME;
+
+if (!T.validHandle(handle)) { location.replace('/'); }
+document.title = '@' + handle + ' · Stock Tips';
+$('title').textContent = '@' + handle;
+$('cHandle').textContent = handle;
+$('pfp').src = 'https://unavatar.io/x/' + encodeURIComponent(handle);
+$('xHandle').href = 'https://x.com/' + encodeURIComponent(handle);
+
+const day = 86400;
+const left = sec => { const h = Math.max(0, Math.ceil(sec / 3600)); return h >= 24 ? Math.ceil(h / 24) + (Math.ceil(h / 24) === 1 ? ' day' : ' days') : h + (h === 1 ? ' hour' : ' hours'); };
+
+async function load() {
+  if (!T.FACTORY) { $('status').textContent = 'Stock Tips is not deployed yet'; $('coinList').textContent = 'Nothing on chain yet'; return; }
+  const all = await T.loadAll();
+  coins = all.coins.filter(c => true);
+  jar = all.jars.find(j => j.handle === handle) || null;
+  const mine = jar ? jar.coins.slice().sort((a, b) => b.createdAt - a.createdAt) : [];
+  coins = mine;
+
+  if (!jar) {
+    $('status').textContent = 'No jar yet';
+    $('coinList').innerHTML = `<div class="row"><span>Nobody opened a coin for @${esc(handle)} yet</span></div>`;
+    $('sNvda').textContent = $('sUsd').textContent = $('sPend').textContent = '0';
+    $('sCoins').textContent = '0';
+    $('claimSub').textContent = 'A jar appears the moment someone opens the first coin for this handle';
+    $('claimBody').hidden = true;
+    return;
+  }
+
+  const claimed = jar.wallet && jar.wallet !== ZERO;
+  $('status').textContent = claimed ? 'Claimed by ' + T.short(jar.wallet) : jar.pending && jar.pending !== ZERO ? 'Claim pending' : 'Unclaimed';
+  $('status').className = 'pill ' + (claimed ? 'ok' : jar.pending && jar.pending !== ZERO ? 'wait' : '');
+  $('sNvda').textContent = T.fmtNum(T.shares(jar.nvda), 4) + ' NVDA';
+  $('sUsd').textContent = T.fmtUsd(jar.usd);
+  $('sPend').textContent = T.fmtNum(T.eth(jar.escrowed + jar.eth + coins.reduce((s, c) => s + (c.unswept || 0n), 0n)), 4) + ' ETH';
+  $('sCoins').textContent = coins.length;
+  $('jarAddr').textContent = T.short(jar.jar);
+  $('jarAddr').href = T.EXPLORER + '/address/' + jar.jar;
+  $('rClaimed').textContent = T.fmtNum(T.eth(jar.totalClaimed), 4) + ' ETH';
+  $('rBought').textContent = T.fmtNum(T.shares(jar.totalNvda), 4) + ' NVDA';
+  $('rPaid').textContent = T.fmtNum(T.shares(jar.paidNvda), 4) + ' NVDA';
+  $('bPayout').hidden = !claimed;
+
+  $('coinList').innerHTML = coins.length ? coins.map(c => `
+    <a class="coin" href="https://www.ponsfamily.com/launchpad/${esc(c.token)}" target="_blank" rel="noopener">
+      <div class="g"><b>${esc(c.name || 'Coin')} · ${esc(c.symbol)}</b><small>${c.phase >= 2 ? 'graduated to Uniswap' : T.fmtNum(c.progress * 100, 1) + '% of the way to graduation'} · opened ${new Date(c.createdAt * 1000).toISOString().slice(0, 10)}</small>
+      <div class="bar"><i style="width:${Math.max(2, Math.round(c.progress * 100))}%"></i></div></div>
+      <span class="btn sm">Trade</span>
+    </a>`).join('') : `<div class="row"><span>No coins yet</span></div>`;
+
+  /* claim state */
+  if (claimed) {
+    $('claimSub').textContent = 'This jar already belongs to ' + T.short(jar.wallet) + ', every harvest goes straight there';
+    $('claimBody').hidden = true;
+  } else if (jar.pending && jar.pending !== ZERO) {
+    const now = Math.floor(Date.now() / 1000);
+    $('step3').hidden = false;
+    $('cWait').textContent = now >= jar.readyAt
+      ? 'The wait is over. Confirm ' + T.short(jar.pending) + ' as the wallet of @' + handle
+      : T.short(jar.pending) + ' is waiting. It can be confirmed in ' + left(jar.readyAt - now) + ', and until then the guardian can cancel it';
+    $('bConfirm').disabled = now < jar.readyAt;
+  }
+}
+
+/* ------------------------------------------------- actions */
+async function act(btn, label, fn, errEl) {
+  const b = $(btn), was = b.textContent;
+  $(errEl).textContent = '';
+  b.disabled = true;
+  try {
+    if (!W.state().address) { b.textContent = 'Connect your wallet'; await W.connect(); }
+    await fn(s => { b.textContent = s; });
+    b.textContent = 'Done';
+    await load();
+    setTimeout(() => { b.textContent = was; }, 1500);
+  } catch (e) { $(errEl).textContent = e.shortMessage || e.message; b.textContent = was; }
+  finally { b.disabled = false; }
+}
+
+$('bHarvest').onclick = () => act('bHarvest', '', async step => {
+  if (!jar) throw Error('There is no jar for this handle yet');
+  const live = coins.filter(c => c.phase < 2).map(c => c.token);
+  if (live.length) await T.sweepAndHarvest(live, step);
+  else await T.harvest(jar.jar, step);
+}, 'jarErr');
+
+$('bPayout').onclick = () => act('bPayout', '', step => T.payout(jar.jar, step), 'jarErr');
+$('bConfirm').onclick = () => act('bConfirm', '', step => T.confirm(jar.jar, step), 'cErr');
+
+$('bCode').onclick = async () => {
+  const b = $('bCode');
+  $('cErr').textContent = '';
+  b.disabled = true;
+  try {
+    if (!W.state().address) { b.textContent = 'Connect your wallet'; await W.connect(); }
+    const r = await T.claimCode(handle, W.state().address);
+    claim = r;
+    $('cText').textContent = r.text;
+    $('cIntent').href = r.intent;
+    $('step2').hidden = false;
+    $('cUrl').focus();
+  } catch (e) { $('cErr').textContent = e.message; }
+  finally { b.disabled = false; b.textContent = 'Get my code'; }
+};
+
+$('cCopy').onclick = async () => {
+  try { await navigator.clipboard.writeText($('cText').textContent); $('cCopy').textContent = 'Copied'; }
+  catch { $('cCopy').textContent = 'Copy failed'; }
+  setTimeout(() => { $('cCopy').textContent = 'Copy the text'; }, 1400);
+};
+
+$('bVerify').onclick = async () => {
+  const b = $('bVerify');
+  $('cErr').textContent = '';
+  b.disabled = true;
+  try {
+    b.textContent = 'Reading your post';
+    const r = await T.claimVerify(handle, W.state().address, $('cUrl').value.trim());
+    b.textContent = 'Confirm in your wallet';
+    await T.bind(r.jar, r.wallet, r.deadline, r.signature, s => { b.textContent = s; });
+    $('cErr').innerHTML = '<span class="ok">Your post checked out. The 48 hour wait started</span>';
+    await load();
+  } catch (e) { $('cErr').textContent = e.shortMessage || e.message; }
+  finally { b.disabled = false; b.textContent = 'Check my post'; }
+};
+
+$('connect').onclick = () => W.connect().catch(e => { $('jarErr').textContent = e.shortMessage || e.message; });
+W.onChange(s => {
+  $('connect').textContent = s.address ? T.short(s.address) : 'Connect';
+  $('cWallet').textContent = s.address ? 'The jar would go to ' + s.address : 'Connect the wallet that should receive the jar';
+});
+W.restore();
+load().catch(e => { $('jarErr').textContent = e.shortMessage || e.message; });
+setInterval(() => { if (!document.hidden) load().catch(() => {}); }, 30000);
+fetch('/api/tick').catch(() => {});
+</script>
+</body>
+</html>
