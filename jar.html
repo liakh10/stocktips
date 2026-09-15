@@ -32,7 +32,7 @@ button,input{font:inherit;color:inherit}
 .top .wrap{display:flex;align-items:center;gap:16px;height:60px}
 .brand{display:flex;align-items:center;gap:10px;text-decoration:none}
 .brand img{width:32px;height:32px;border-radius:9px}
-.brand b{font:400 19px var(--d)}
+.brand b{font:400 19px var(--d);white-space:nowrap}
 .top .r{margin-left:auto;display:flex;gap:8px;align-items:center}
 .icon{width:34px;height:34px;border-radius:9px;border:1px solid var(--line);display:grid;place-items:center}
 .head{display:flex;gap:18px;align-items:center;padding:36px 0 22px;flex-wrap:wrap}
@@ -71,6 +71,7 @@ input.t:focus{border-color:var(--mint)}
 .bar i{display:block;height:100%;background:linear-gradient(90deg,var(--mint),var(--gold))}
 .foot{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;padding:40px 0 70px}
 @media (max-width:780px){.grid{grid-template-columns:repeat(2,1fr)}}
+@media (max-width:620px){.top .wrap{gap:10px}.brand b{font-size:16px}.brand img{width:28px;height:28px}.row{flex-wrap:wrap}}
 @media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
 </style>
 </head>

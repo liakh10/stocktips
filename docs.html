@@ -25,7 +25,7 @@ img{max-width:100%;display:block}
 .top .in{width:min(1140px,100%);margin:0 auto;padding:0 max(16px,env(safe-area-inset-left));display:flex;align-items:center;gap:14px;height:60px}
 .brand{display:flex;align-items:center;gap:10px;text-decoration:none}
 .brand img{width:32px;height:32px;border-radius:9px}
-.brand b{font:400 19px var(--d)}
+.brand b{font:400 19px var(--d);white-space:nowrap}
 .chip{font-size:9.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--gold);border:1px solid rgba(242,193,78,.4);border-radius:999px;padding:3px 9px}
 .top .r{margin-left:auto;display:flex;gap:8px;align-items:center}
 .btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;height:34px;padding:0 13px;border-radius:10px;border:1px solid var(--line);background:var(--panel2);color:var(--ink);font:500 11.5px var(--m);letter-spacing:.05em;text-transform:uppercase;cursor:pointer;text-decoration:none;white-space:nowrap}
@@ -66,7 +66,7 @@ li{margin-bottom:5px}
 .slip .ca.soon{font:400 30px var(--d)}
 .slip .copy{display:block;margin:10px auto 0;background:none;border:0;color:#1d6b46;font:500 11.5px var(--m);letter-spacing:.14em;cursor:pointer}
 @media (max-width:900px){.page{grid-template-columns:1fr;gap:0}nav.toc{position:static;padding:22px 0 0}nav.toc ol{display:flex;flex-wrap:wrap;gap:4px;border-left:0}nav.toc a{border:1px solid var(--line);border-radius:999px;padding:4px 11px;margin:0}nav.toc a.on{border-color:var(--mint)}}
-@media (max-width:620px){.top .r .btn.hideSm{display:none}}
+@media (max-width:620px){.top .r .btn.hideSm{display:none}.top .in{gap:9px}.brand b{font-size:16px}.brand img{width:28px;height:28px}.chip{display:none}}
 @media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}*{transition:none!important;animation:none!important}}
 </style>
 </head>
