@@ -44,17 +44,17 @@ button,input,textarea{font:inherit;color:inherit}
 .heroIn{width:100%}
 .heroBg{position:absolute;inset:0;z-index:-1;overflow:hidden;background:var(--deep)}
 .heroBg video,.heroBg img.fallback{width:100%;height:100%;object-fit:cover;object-position:center;display:block;filter:brightness(1.14) saturate(1.06)}
-.heroBg::after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,rgba(5,22,16,.84) 0%,rgba(5,22,16,.6) 44%,rgba(5,22,16,.22) 100%),linear-gradient(180deg,rgba(5,22,16,.58) 0%,rgba(5,22,16,.1) 34%,rgba(7,32,26,.96) 100%)}
-.heroIn{padding:clamp(88px,17vh,178px) 0 clamp(52px,9vh,96px)}
+.heroBg::after{content:"";position:absolute;inset:0;background:radial-gradient(120% 90% at 50% 46%,rgba(5,22,16,.32) 0%,rgba(5,22,16,.62) 55%,rgba(5,22,16,.88) 100%),linear-gradient(180deg,rgba(5,22,16,.62) 0%,rgba(5,22,16,.34) 38%,rgba(7,32,26,.96) 100%)}
+.heroIn{padding:clamp(88px,17vh,178px) 0 clamp(52px,9vh,96px);text-align:center}
 .kicker{display:inline-block;font-size:10px;letter-spacing:.17em;text-transform:uppercase;color:var(--mint);border:1px solid rgba(62,229,143,.35);border-radius:999px;padding:4px 12px;margin-bottom:18px}
-.hero h1{margin:0;font:400 clamp(34px,5.4vw,66px)/1.05 var(--d);letter-spacing:-.01em;max-width:16ch;text-shadow:0 2px 30px rgba(0,0,0,.6)}
+.hero h1{margin:0 auto;font:400 clamp(34px,5.4vw,66px)/1.05 var(--d);letter-spacing:-.01em;max-width:17ch;text-shadow:0 2px 34px rgba(0,0,0,.75)}
 .hero h1 em{font-style:normal;color:var(--mint)}
-.hero p{margin:16px 0 0;color:#b6cfc2;max-width:52ch}
-.find{display:flex;gap:8px;margin-top:22px;flex-wrap:wrap}
+.hero p{margin:16px auto 0;color:#cbe0d5;max-width:52ch;text-shadow:0 1px 18px rgba(0,0,0,.8)}
+.find{display:flex;gap:8px;margin-top:26px;flex-wrap:wrap;justify-content:center}
 .find .at{display:flex;align-items:center;border:1px solid var(--line);border-radius:12px;background:rgba(5,22,16,.8);padding-left:12px;flex:1;min-width:220px;max-width:360px}
 .find .at span{color:var(--dim)}
 .find input{flex:1;height:44px;border:0;background:none;outline:0;padding:0 10px;min-width:0}
-.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin:34px 0 0;max-width:720px}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin:38px auto 0;max-width:760px;text-align:left}
 .stat{border:1px solid rgba(29,76,58,.9);border-radius:14px;padding:12px;background:rgba(12,42,32,.66);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px)}
 .stat span{display:block;font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--dim)}
 .stat b{font:400 20px var(--d)}
@@ -108,7 +108,7 @@ section.band{padding:56px 0;border-top:1px solid var(--line);scroll-margin-top:6
 .slip .links{display:flex;gap:8px;justify-content:center;margin-top:16px;flex-wrap:wrap}
 .slip .btn{height:36px;font-size:11px;color:#21201c;border-color:#c9c2b0;background:#efe9da}
 .slip .btn.mint{color:#04180f}
-@media (max-width:920px){.heroIn{padding:52px 0 40px}.hero h1{max-width:none}.open{grid-template-columns:1fr}.steps{grid-template-columns:repeat(2,1fr)}.stats{grid-template-columns:repeat(2,1fr)}.heroBg::after{background:linear-gradient(180deg,rgba(5,22,16,.8) 0%,rgba(5,22,16,.55) 30%,rgba(7,32,26,.97) 100%)}}
+@media (max-width:920px){.heroIn{padding:52px 0 40px}.hero h1{max-width:none}.open{grid-template-columns:1fr}.steps{grid-template-columns:repeat(2,1fr)}.stats{grid-template-columns:repeat(2,1fr)}.heroBg::after{background:radial-gradient(130% 70% at 50% 44%,rgba(5,22,16,.4) 0%,rgba(5,22,16,.7) 60%,rgba(5,22,16,.9) 100%),linear-gradient(180deg,rgba(5,22,16,.72) 0%,rgba(5,22,16,.45) 32%,rgba(7,32,26,.97) 100%)}}
 @media (max-width:620px){.top nav{display:none}.two{grid-template-columns:1fr}.steps{grid-template-columns:1fr}.top .wrap{gap:10px}.brand b{font-size:16px}.brand img{width:28px;height:28px}#buyTop{display:none}}
 @media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}*{transition:none!important;animation:none!important}}
 </style>
@@ -126,8 +126,8 @@ section.band{padding:56px 0;border-top:1px solid var(--line);scroll-margin-top:6
 
 <section class="hero">
   <div class="heroBg" id="heroBg">
-    <video id="heroVid" autoplay muted loop playsinline preload="auto" poster="/assets/video/hero-poster.v2.jpg" aria-hidden="true" tabindex="-1">
-      <source src="/assets/video/hero.v2.mp4" type="video/mp4">
+    <video id="heroVid" autoplay muted loop playsinline preload="auto" poster="/assets/video/hero-poster.v3.jpg" aria-hidden="true" tabindex="-1">
+      <source src="/assets/video/hero.v3.mp4" type="video/mp4">
     </video>
   </div>
   <div class="wrap heroIn">
