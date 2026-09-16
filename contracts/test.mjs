@@ -13,9 +13,11 @@ import { generatePrivateKey, privateKeyToAccount } from 'viem/accounts';
 
 const RPC = 'https://robinhood-rpc.publicnode.com';
 const realFetch = globalThis.fetch;
-let rpcRetries = 0;
+let rpcRetries = 0, rpcCalls = 0, rpcMethods = {};
 globalThis.fetch = async (url, opts) => {
   if (!String(url).startsWith(RPC)) return realFetch(url, opts);
+  rpcCalls++;
+  try { const m = JSON.parse(opts.body).method; rpcMethods[m] = (rpcMethods[m] || 0) + 1; } catch {}
   let last;
   for (let i = 0; i < 8; i++) {
     try { const text = await (await realFetch(url, opts)).text(); const j = JSON.parse(text); if (j.result !== undefined) return new Response(text, { status: 200, headers: { 'content-type': 'application/json' } }); last = JSON.stringify(j.error || j); } catch (e) { last = e.message; }
@@ -233,4 +235,5 @@ await reverts(eve, B, BUR.abi, 'unlockCallback', ['0x'], 'pool manager', 'v4 cal
 ok(![...JAR.abi, ...FAC.abi, ...BUR.abi].some(x => x.type === 'function' && /withdraw|rescue|sweepEth|recover/i.test(x.name)), 'no function takes fees, NVDA or ETH anywhere else');
 
 console.log(`\n${pass} passed, ${fail} failed · rpc retries ${rpcRetries}`);
+console.log(`rpc calls this run: ${rpcCalls} · ${Object.entries(rpcMethods).sort((a, b) => b[1] - a[1]).map(([m, n]) => m + ' ' + n).join(', ')}`);
 process.exit(fail ? 1 : 0);
