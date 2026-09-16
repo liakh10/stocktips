@@ -200,6 +200,18 @@ input[type=range]{width:100%;accent-color:var(--mint);height:26px}
   </div>
 </section>
 
+<section class="band" id="activity"><div class="wrap">
+  <div class="shead">
+    <div>
+      <div class="eyebrow"><span class="dot"></span>Live</div>
+      <h2>Activity</h2>
+      <p class="lede">Read from the event logs on Robinhood Chain. Nothing here is written by us: every line is a transaction anyone can look up.</p>
+    </div>
+    <span class="chip" id="feedHead">·</span>
+  </div>
+  <div class="rows" id="feed"><div class="empty">Reading the logs</div></div>
+</div></section>
+
 <section class="band" id="jars"><div class="wrap">
   <div class="shead">
     <div>
@@ -410,6 +422,37 @@ async function load() {
     $('jarList').innerHTML = `<div class="empty">Could not read the factory: ${esc(e.shortMessage || e.message)}</div>`;
   }
 }
+
+/* ---------------------------------------------------------------- the activity feed, straight from event logs */
+const since = ts => { if (!ts) return ''; const s = Math.floor(Date.now() / 1000) - ts; if (s < 90) return 'just now'; if (s < 3600) return Math.floor(s / 60) + 'm ago'; if (s < 86400) return Math.floor(s / 3600) + 'h ago'; return Math.floor(s / 86400) + 'd ago'; };
+const line = e => {
+  const who = e.handle ? `<b>@${esc(e.handle)}</b>` : 'a jar';
+  if (e.kind === 'opened') return { t: `${who} · coin opened`, v: '$' + esc(e.symbol || ''), c: '' };
+  if (e.kind === 'harvest') return { t: `${who} · harvested`, v: T.fmtNum(e.nvda, 4) + ' NVDA', c: 'mint' };
+  if (e.kind === 'paid') return { t: `${who} · paid out to ${esc(T.short(e.wallet))}`, v: T.fmtNum(e.nvda, 4) + ' NVDA', c: '' };
+  if (e.kind === 'claimed') return { t: `${who} · claimed by ${esc(T.short(e.wallet))}`, v: 'claimed', c: 'mint' };
+  return { t: who, v: '', c: '' };
+};
+async function feed() {
+  try {
+    const r = await fetch('/api/feed').then(x => x.json());
+    $('feedHead').textContent = r.head ? 'block ' + r.head.toLocaleString('en-US') : 'not deployed';
+    if (!r.events || !r.events.length) {
+      $('feed').innerHTML = `<div class="empty">${r.note === 'not deployed yet' ? 'Nothing has happened yet: Stock Tips is not deployed.' : 'No activity in the last day.'}</div>`;
+      return;
+    }
+    $('feed').innerHTML = r.events.map(e => {
+      const l = line(e);
+      return `<div class="row" style="grid-template-columns:minmax(0,1fr) auto auto">
+        <div class="c"><b style="font-weight:500">${l.t}</b></div>
+        <div class="c" style="text-align:right"><b class="num ${l.c === 'mint' ? '' : ''}" style="${l.c === 'mint' ? 'color:var(--mint)' : ''}">${l.v}</b></div>
+        <span class="chip">${since(e.at)}</span>
+      </div>`;
+    }).join('');
+  } catch (e) { $('feed').innerHTML = '<div class="empty">Could not read the logs right now.</div>'; }
+}
+feed();
+setInterval(() => { if (!document.hidden) feed(); }, 60000);
 
 /* ---------------------------------------------------------------- opening a coin */
 T.launchFee().then(f => { $('oFee').textContent = `Pons launch fee ${T.fmtNum(T.eth(f), 4)} ETH plus gas`; }).catch(() => {});
