@@ -15,21 +15,36 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Young+Serif&family=Martian+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
-:root{--bg:#07201a;--deep:#051610;--panel:#0c2a20;--panel2:#10382a;--line:#1d4c3a;--ink:#eaf5ee;--dim:#8fb3a3;--mint:#3ee58f;--gold:#f2c14e;--gold2:#ffdf9a;--bad:#ff8080;--d:'Young Serif',Georgia,serif;--m:'Martian Mono',ui-monospace,monospace}
+:root{--bg:#07201a;--deep:#04120d;--panel:#0c2a20;--panel2:#10382a;--line:#1d4c3a;--ink:#eaf5ee;--dim:#8fb3a3;--mint:#3ee58f;--gold:#f2c14e;--gold2:#ffdf9a;--bad:#ff8080;--d:'Young Serif',Georgia,serif;--m:'Martian Mono',ui-monospace,monospace}
 *{box-sizing:border-box}
-html{overflow-x:hidden}
-body{margin:0;background:var(--bg);color:var(--ink);font:13.5px/1.65 var(--m)}
+html{overflow-x:hidden;scroll-snap-type:y proximity;scroll-behavior:smooth}
+body{margin:0;background:var(--deep);color:var(--ink);font:13.5px/1.65 var(--m)}
 [hidden]{display:none!important}
 a{color:inherit}
 img{max-width:100%;display:block}
 button,input,textarea{font:inherit;color:inherit}
-.wrap{width:min(1180px,100%);margin:0 auto;padding:0 max(16px,env(safe-area-inset-left))}
-.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;height:40px;padding:0 17px;border-radius:12px;border:1px solid var(--line);background:var(--panel2);color:var(--ink);font:500 12px var(--m);letter-spacing:.05em;text-transform:uppercase;cursor:pointer;text-decoration:none;white-space:nowrap}
+.wrap{width:min(1120px,100%);margin:0 auto;padding:0 max(18px,env(safe-area-inset-left))}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;height:42px;padding:0 18px;border-radius:12px;border:1px solid var(--line);background:rgba(16,56,42,.7);color:var(--ink);font:500 12px var(--m);letter-spacing:.06em;text-transform:uppercase;cursor:pointer;text-decoration:none;white-space:nowrap}
 .btn:hover{border-color:var(--mint)}
 .btn.mint{background:linear-gradient(180deg,#4ff29c,#22c977);border-color:#4ff29c;color:#04180f;font-weight:600}
 .btn.sm{height:33px;padding:0 12px;font-size:11px}
 .btn:disabled{opacity:.45;cursor:not-allowed}
-.top{position:fixed;top:0;left:0;right:0;z-index:30;background:linear-gradient(180deg,rgba(5,22,16,.96),rgba(5,22,16,.55) 72%,transparent);padding-top:env(safe-area-inset-top,0px)}
+
+/* ---------------------------------------------------------------- layers */
+.layer{position:relative;min-height:100vh;min-height:100svh;scroll-snap-align:start;display:flex;flex-direction:column;justify-content:center;padding:92px 0 64px;isolation:isolate}
+.layer + .layer{border-top:1px solid rgba(29,76,58,.55)}
+.layer .bgimg{position:absolute;inset:0;z-index:-2;overflow:hidden}
+.layer .bgimg video,.layer .bgimg img{width:100%;height:100%;object-fit:cover}
+.layer .veil{position:absolute;inset:0;z-index:-1}
+/* every layer fades to the same deep tone at both edges, so one never cuts into the next */
+.edge{position:absolute;left:0;right:0;height:26vh;z-index:-1;pointer-events:none}
+.edge.top{top:0;background:linear-gradient(180deg,var(--deep),rgba(4,18,13,0))}
+.edge.bot{bottom:0;background:linear-gradient(0deg,var(--deep),rgba(4,18,13,0))}
+.lbl{font-size:10px;letter-spacing:.24em;text-transform:uppercase;color:var(--dim);margin-bottom:16px}
+h2.big{margin:0 0 10px;font:400 clamp(26px,4.2vw,44px)/1.08 var(--d)}
+p.sub{margin:0;color:var(--dim);max-width:56ch;font-size:13px}
+
+.top{position:fixed;top:0;left:0;right:0;z-index:40;background:linear-gradient(180deg,rgba(4,18,13,.96),rgba(4,18,13,.6) 70%,transparent);padding-top:env(safe-area-inset-top,0px)}
 .top .wrap{display:flex;align-items:center;gap:16px;height:58px}
 .brand{display:flex;align-items:center;gap:10px;text-decoration:none}
 .brand img{width:30px;height:30px;border-radius:9px}
@@ -38,76 +53,89 @@ button,input,textarea{font:inherit;color:inherit}
 .icon{width:33px;height:33px;border-radius:9px;border:1px solid var(--line);display:grid;place-items:center}
 .icon:hover{border-color:var(--mint)}
 
-/* ---------------------------------------------------------------- the shelf */
-.shelf{position:relative;min-height:100vh;min-height:100svh;display:flex;align-items:center;overflow:hidden}
-.shelf .bg{position:absolute;inset:0;z-index:0}
-.shelf .bg video,.shelf .bg img{width:100%;height:100%;object-fit:cover;filter:brightness(.62) blur(2.5px) saturate(.95);transform:scale(1.04)}
-.shelf .bg::after{content:"";position:absolute;inset:0;background:radial-gradient(110% 85% at 30% 50%,rgba(5,22,16,.55) 0%,rgba(5,22,16,.82) 55%,rgba(7,32,26,.96) 100%)}
-.shelf .in{position:relative;z-index:1;width:100%;padding:82px 0 34px;display:grid;grid-template-columns:minmax(0,420px) minmax(0,1fr);gap:30px;align-items:center}
-
-/* the jar you can drop a coin into */
-.jarbox{text-align:center}
-.jarbox canvas{width:100%;max-width:360px;height:auto;margin:0 auto;display:block;cursor:pointer;touch-action:manipulation}
-.jarbox .cap{margin-top:8px;font-size:11px;letter-spacing:.11em;text-transform:uppercase;color:var(--dim)}
-.jarbox .cap b{color:var(--gold2);font-weight:400}
-
-/* the card index */
-.deck{background:linear-gradient(180deg,rgba(16,56,42,.94),rgba(12,42,32,.94));border:1px solid var(--line);border-radius:18px;box-shadow:0 30px 70px rgba(0,0,0,.5);overflow:hidden}
-.tabs{display:flex;gap:0;border-bottom:1px solid var(--line);background:rgba(5,22,16,.4)}
-.tab{flex:1;background:none;border:0;border-right:1px solid var(--line);padding:13px 10px 11px;color:var(--dim);font:500 11px var(--m);letter-spacing:.1em;text-transform:uppercase;cursor:pointer;position:relative}
-.tab:last-child{border-right:0}
-.tab[aria-selected="true"]{color:var(--ink);background:rgba(62,229,143,.08)}
-.tab[aria-selected="true"]::after{content:"";position:absolute;left:14px;right:14px;bottom:-1px;height:2px;background:var(--mint);border-radius:2px}
-.pane{padding:20px}
-.pane h2{margin:0 0 4px;font:400 clamp(24px,3.2vw,36px)/1.08 var(--d)}
-.pane p.s{margin:0 0 16px;color:var(--dim);font-size:12.5px;max-width:52ch}
-.find{display:flex;gap:8px;flex-wrap:wrap}
-.at{display:flex;align-items:center;border:1px solid var(--line);border-radius:12px;background:var(--deep);padding-left:12px;flex:1;min-width:200px}
+/* layer 1 */
+#l1{text-align:center}
+#l1 .veil{background:radial-gradient(105% 78% at 50% 44%,rgba(4,18,13,.3) 0%,rgba(4,18,13,.76) 58%,var(--deep) 100%)}
+#l1 h1{margin:0 auto;font:400 clamp(32px,5.6vw,68px)/1.03 var(--d);max-width:17ch;text-shadow:0 2px 34px rgba(0,0,0,.8)}
+#l1 h1 em{font-style:normal;color:var(--mint)}
+#l1 p{margin:16px auto 0;color:#c6ddd0;max-width:52ch;text-shadow:0 1px 16px rgba(0,0,0,.85)}
+.find{display:flex;gap:8px;margin:26px auto 0;flex-wrap:wrap;justify-content:center;max-width:520px}
+.at{display:flex;align-items:center;border:1px solid var(--line);border-radius:12px;background:rgba(4,18,13,.82);padding-left:13px;flex:1;min-width:210px}
 .at span{color:var(--gold)}
-.at input{flex:1;height:44px;border:0;background:none;outline:0;padding:0 10px;min-width:0}
-.jars{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:8px;margin-top:14px;max-height:296px;overflow:auto}
-.jarcard{display:block;text-decoration:none;border:1px solid var(--line);border-radius:12px;padding:11px;background:rgba(5,22,16,.5)}
+.at input{flex:1;height:46px;border:0;background:none;outline:0;padding:0 11px;min-width:0;font-size:15px}
+.counts{display:flex;gap:30px;justify-content:center;margin-top:30px;flex-wrap:wrap}
+.counts div span{display:block;font-size:9.5px;letter-spacing:.17em;text-transform:uppercase;color:var(--dim)}
+.counts div b{font:400 26px var(--d);color:var(--gold2)}
+.down{position:absolute;left:0;right:0;bottom:26px;text-align:center;font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--dim)}
+
+/* layer 2: what a coin actually pays, on today's prices */
+#l2 .veil{background:linear-gradient(180deg,var(--deep),#06231b 45%,var(--deep))}
+.calc{display:grid;grid-template-columns:minmax(0,340px) minmax(0,1fr);gap:26px;align-items:center;margin-top:22px}
+.dial{border:1px solid var(--line);border-radius:16px;background:rgba(12,42,32,.7);padding:18px}
+.dial label{display:block;font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--dim)}
+.dial .val{font:400 34px var(--d);color:var(--gold2);margin:4px 0 12px}
+input[type=range]{width:100%;accent-color:var(--mint);height:26px}
+.dial .marks{display:flex;justify-content:space-between;font-size:10px;color:var(--dim)}
+.dial .px{margin-top:14px;padding-top:12px;border-top:1px dashed rgba(29,76,58,.8);font-size:11.5px;color:var(--dim);display:grid;gap:4px}
+.dial .px b{color:var(--ink);font-weight:400}
+.ladder{display:grid;gap:10px}
+.rung{border:1px solid var(--line);border-radius:14px;background:linear-gradient(90deg,rgba(16,56,42,.85),rgba(12,42,32,.6));padding:13px 15px;display:grid;grid-template-columns:1fr auto;gap:10px;align-items:center;position:relative;overflow:hidden}
+.rung i{position:absolute;left:0;top:0;bottom:0;background:linear-gradient(90deg,rgba(62,229,143,.22),rgba(62,229,143,0));z-index:0}
+.rung .t,.rung .n{position:relative;z-index:1}
+.rung .t b{display:block;font-weight:400}
+.rung .t small{color:var(--dim);font-size:11px}
+.rung .n{font:400 22px var(--d);color:var(--gold2);white-space:nowrap}
+.rung.mint .n{color:var(--mint)}
+.foot{font-size:11.5px;color:var(--dim);margin-top:14px}
+
+/* layer 3: the jars */
+#l3 .veil{background:linear-gradient(180deg,var(--deep),#05201a 50%,var(--deep))}
+.jars{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:10px;margin-top:20px;max-height:52vh;overflow:auto;padding-right:4px}
+.jarcard{display:block;text-decoration:none;border:1px solid var(--line);border-radius:14px;padding:13px;background:rgba(12,42,32,.7)}
 .jarcard:hover{border-color:var(--mint)}
 .jarcard b{display:block;font-weight:400;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.jarcard .v{font:400 20px var(--d);color:var(--gold2);margin-top:6px}
+.jarcard .v{font:400 22px var(--d);color:var(--gold2);margin-top:7px}
 .jarcard small{color:var(--dim);font-size:10.5px}
-.empty{grid-column:1/-1;border:1px dashed var(--line);border-radius:12px;padding:24px;text-align:center;color:var(--dim)}
+.empty{grid-column:1/-1;border:1px dashed var(--line);border-radius:14px;padding:26px;text-align:center;color:var(--dim)}
+
+/* layer 4: open a coin */
+#l4 .veil{background:linear-gradient(180deg,var(--deep),#06231b 50%,var(--deep))}
+.form{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:22px;margin-top:20px;align-items:start}
 .f{display:grid;gap:5px;margin-bottom:11px}
-.f label{font-size:10px;color:var(--dim);text-transform:uppercase;letter-spacing:.09em}
-.f input,.f textarea{border:1px solid var(--line);border-radius:11px;background:var(--deep);padding:10px 12px;outline:0;min-width:0}
+.f label{font-size:10px;color:var(--dim);text-transform:uppercase;letter-spacing:.1em}
+.f input,.f textarea{border:1px solid var(--line);border-radius:11px;background:rgba(4,18,13,.8);padding:10px 12px;outline:0;min-width:0}
 .f input:focus,.f textarea:focus{border-color:var(--mint)}
-.f textarea{min-height:56px;resize:vertical}
+.f textarea{min-height:58px;resize:vertical}
 .two{display:grid;grid-template-columns:1fr 1fr;gap:9px}
-.file{display:flex;align-items:center;gap:10px;border:1px solid var(--line);border-radius:11px;background:var(--deep);padding:6px 10px 6px 6px;cursor:pointer;min-width:0}
+.file{display:flex;align-items:center;gap:10px;border:1px solid var(--line);border-radius:11px;background:rgba(4,18,13,.8);padding:6px 10px 6px 6px;cursor:pointer;min-width:0}
 .file:hover{border-color:var(--mint)}
 .file .pick{border:1px solid var(--line);border-radius:8px;padding:6px 11px;font-size:10.5px;letter-spacing:.05em;text-transform:uppercase;background:var(--panel2);white-space:nowrap}
 .file .name{color:var(--dim);font-size:11px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;min-width:0}
 .err{color:var(--bad);font-size:12px;min-height:17px;margin-top:7px}
 .note{font-size:11.5px;color:var(--dim);margin-top:9px}
-.flow{display:grid;gap:9px;margin-top:4px}
-.flow div{display:flex;gap:11px;align-items:flex-start;border-left:2px solid var(--line);padding-left:12px}
-.flow b{font:400 19px var(--d);color:var(--gold);min-width:26px}
-.flow p{margin:0;font-size:12.5px;color:#cfe3d8}
-.flow h4{margin:0 0 2px;font:400 15px var(--d)}
+.rules{border:1px solid var(--line);border-radius:14px;background:rgba(12,42,32,.6);padding:16px}
+.rules div{display:flex;justify-content:space-between;gap:12px;padding:8px 0;border-bottom:1px dashed rgba(29,76,58,.7);font-size:12.5px}
+.rules div:last-child{border-bottom:0}
+.rules span{color:var(--dim)}
 
-/* ---------------------------------------------------------------- the lid: the contract is engraved on it */
-.lidwrap{padding:70px 0 96px;text-align:center;border-top:1px solid var(--line)}
-.lidwrap .k{font-size:10.5px;letter-spacing:.2em;text-transform:uppercase;color:var(--dim);margin-bottom:22px}
-.lid{width:min(420px,88vw);aspect-ratio:1;margin:0 auto;border-radius:50%;position:relative;cursor:pointer;background:conic-gradient(from 0deg,#8a6a1e,#e9c877 6%,#a9832c 12%,#f3dc9f 19%,#9c7726 26%,#e9c877 33%,#8a6a1e 40%,#f0d494 47%,#a9832c 54%,#e9c877 62%,#8a6a1e 70%,#f3dc9f 78%,#a9832c 86%,#e9c877 94%,#8a6a1e 100%);box-shadow:0 26px 60px rgba(0,0,0,.55),inset 0 0 0 2px rgba(255,235,180,.35);transition:transform .5s cubic-bezier(.3,1.4,.5,1)}
+/* layer 5: the lid */
+#l5{text-align:center}
+#l5 .veil{background:radial-gradient(85% 65% at 50% 45%,#0a2a20 0%,var(--deep) 70%)}
+.lid{width:min(380px,76vw);aspect-ratio:1;margin:22px auto 0;border-radius:50%;position:relative;cursor:pointer;background:conic-gradient(from 0deg,#8a6a1e,#e9c877 6%,#a9832c 12%,#f3dc9f 19%,#9c7726 26%,#e9c877 33%,#8a6a1e 40%,#f0d494 47%,#a9832c 54%,#e9c877 62%,#8a6a1e 70%,#f3dc9f 78%,#a9832c 86%,#e9c877 94%,#8a6a1e 100%);box-shadow:0 26px 60px rgba(0,0,0,.6),inset 0 0 0 2px rgba(255,235,180,.35);transition:transform .5s cubic-bezier(.3,1.4,.5,1)}
 .lid::before{content:"";position:absolute;inset:6.5%;border-radius:50%;background:radial-gradient(circle at 34% 28%,#fbeec4,#c49a3a 45%,#7d5f1c 100%);box-shadow:inset 0 2px 5px rgba(255,255,255,.4),inset 0 -3px 8px rgba(0,0,0,.4)}
 .lid .face{position:absolute;inset:14%;border-radius:50%;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:9px;padding:8%}
-.lid .mark{font:400 clamp(15px,3.4vw,23px)/1 var(--d);color:#6a4f14;text-shadow:0 1px 0 rgba(255,238,196,.55)}
-.lid .ca{font:600 clamp(6.5px,1.55vw,11px)/1.5 var(--m);color:#5c4410;word-break:break-all;text-shadow:0 1px 0 rgba(255,240,200,.5);letter-spacing:.02em;max-width:100%}
-.lid .ca.soon{font:400 clamp(26px,7vw,46px)/1 var(--d);letter-spacing:.16em}
-.lid .sub{font:500 9px var(--m);letter-spacing:.24em;text-transform:uppercase;color:#7a5c19}
+.lid .mark{font:400 clamp(14px,3vw,21px)/1 var(--d);color:#6a4f14;text-shadow:0 1px 0 rgba(255,238,196,.55)}
+.lid .ca{font:600 clamp(6px,1.5vw,10.5px)/1.5 var(--m);color:#5c4410;word-break:break-all;text-shadow:0 1px 0 rgba(255,240,200,.5);max-width:100%}
+.lid .ca.soon{font:400 clamp(24px,6.4vw,42px)/1 var(--d);letter-spacing:.16em}
+.lid .sub{font:500 8.5px var(--m);letter-spacing:.22em;text-transform:uppercase;color:#7a5c19}
 .lid:hover{transform:rotate(-7deg)}
 .lid.turn{transform:rotate(-24deg)}
-.lidwrap .cp{background:none;border:0;color:var(--gold2);font:500 11px var(--m);letter-spacing:.2em;cursor:pointer;margin-top:20px}
-.lidwrap .acts{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin-top:14px}
+.cp{background:none;border:0;color:var(--gold2);font:500 11px var(--m);letter-spacing:.2em;cursor:pointer;margin-top:18px}
+.acts{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin-top:14px}
 
-@media (max-width:900px){.shelf .in{grid-template-columns:1fr;gap:18px;padding:74px 0 26px}.jarbox canvas{max-width:250px}.two{grid-template-columns:1fr}.jars{max-height:none}}
-@media (max-width:620px){.brand b{font-size:17px}#buyTop{display:none}.tab{font-size:10px;letter-spacing:.05em;padding:12px 6px 10px}}
-@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+@media (max-width:900px){.calc{grid-template-columns:1fr;gap:16px}.form{grid-template-columns:1fr}.two{grid-template-columns:1fr}.layer{padding:84px 0 56px}.jars{max-height:none}}
+@media (max-width:620px){.brand b{font-size:17px}#buyTop{display:none}.counts{gap:18px}.counts div b{font-size:22px}}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto;scroll-snap-type:none}*{transition:none!important;animation:none!important}}
 </style>
 </head>
 <body>
@@ -121,38 +149,75 @@ button,input,textarea{font:inherit;color:inherit}
   </div>
 </div></header>
 
-<section class="shelf">
-  <div class="bg">
+<section class="layer" id="l1">
+  <div class="bgimg">
     <video id="heroVid" autoplay muted loop playsinline preload="auto" poster="/assets/video/hero-poster.v3.jpg" aria-hidden="true" tabindex="-1">
       <source src="/assets/video/hero.v3.mp4" type="video/mp4">
     </video>
   </div>
-  <div class="wrap in">
-    <div class="jarbox">
-      <canvas id="jar" width="420" height="520" aria-label="A jar that fills with a coin for every jar on Stock Tips"></canvas>
-      <div class="cap" id="jarCap">Tap the jar</div>
+  <div class="veil"></div><div class="edge bot"></div>
+  <div class="wrap">
+    <h1>Every X handle gets <em>stock tips</em></h1>
+    <p>Open a coin for any handle on Robinhood Chain. Its trading fees buy NVDA into that handle's jar, and only the handle can take it out</p>
+    <div class="find">
+      <label class="at" for="find"><span>@</span><input id="find" placeholder="handle" autocomplete="off" spellcheck="false" maxlength="15" aria-label="X handle"></label>
+      <button class="btn mint" id="findGo">Open the jar</button>
     </div>
+    <div class="counts">
+      <div><span>Jars</span><b id="sJars">·</b></div>
+      <div><span>In jars</span><b id="sValue">·</b></div>
+      <div><span>NVDA bought</span><b id="sNvda">·</b></div>
+    </div>
+  </div>
+  <div class="down">Scroll</div>
+</section>
 
-    <div class="deck">
-      <div class="tabs" role="tablist">
-        <button class="tab" role="tab" aria-selected="true" data-pane="p1">The jars</button>
-        <button class="tab" role="tab" aria-selected="false" data-pane="p2">Open a coin</button>
-        <button class="tab" role="tab" aria-selected="false" data-pane="p3">How it works</button>
-      </div>
-
-      <div class="pane" id="p1">
-        <h2>Every X handle gets <span style="color:var(--mint)">stock tips</span></h2>
-        <p class="s">Open a coin for any handle. Its trading fees buy NVDA into that handle's jar, and only the handle can take it out</p>
-        <div class="find">
-          <label class="at" for="find"><span>@</span><input id="find" placeholder="handle" autocomplete="off" spellcheck="false" maxlength="15" aria-label="X handle"></label>
-          <button class="btn mint" id="findGo">Open the jar</button>
+<section class="layer" id="l2">
+  <div class="veil"></div><div class="edge top"></div><div class="edge bot"></div>
+  <div class="wrap">
+    <div class="lbl">What a coin pays</div>
+    <h2 class="big">Move the volume, watch where it lands</h2>
+    <p class="sub">Every figure below is computed from the rates written into the contracts and the Chainlink prices read from Robinhood Chain right now</p>
+    <div class="calc">
+      <div class="dial">
+        <label for="vol">Traded on the coin</label>
+        <div class="val" id="volVal">10 ETH</div>
+        <input type="range" id="vol" min="0" max="100" value="42" step="1" aria-label="Volume traded on the coin">
+        <div class="marks"><span>0.1 ETH</span><span>1000 ETH</span></div>
+        <div class="px">
+          <div>ETH / USD <b id="pxEth">reading</b></div>
+          <div>NVDA / USD <b id="pxNvda">reading</b></div>
         </div>
-        <div class="jars" id="jarList"><div class="empty">Reading the chain</div></div>
       </div>
+      <div class="ladder">
+        <div class="rung"><i style="width:100%"></i><div class="t"><b>Creator fee to the jar</b><small>3% creator tax plus 70% of the 1% Pons curve fee</small></div><div class="n" id="rFees">·</div></div>
+        <div class="rung mint"><i style="width:15%"></i><div class="t"><b>Burned as $STIPS</b><small>15%, taken by the jar itself</small></div><div class="n" id="rBurn">·</div></div>
+        <div class="rung"><i style="width:85%"></i><div class="t"><b>Bought as NVDA</b><small>85%, at no worse than Chainlink minus 2%</small></div><div class="n" id="rNvda">·</div></div>
+        <div class="rung"><i style="width:0"></i><div class="t"><b>Kept by whoever opened the coin</b><small>there is no function that pays them</small></div><div class="n">$0.00</div></div>
+      </div>
+    </div>
+    <p class="foot" id="calcFoot">Rates are fixed in the contracts and cannot be changed after deployment</p>
+  </div>
+</section>
 
-      <div class="pane" id="p2" hidden>
-        <h2>Open a coin</h2>
-        <p class="s">One transaction on Pons. You pay the launch fee and gas; the creator fees go to the handle's jar, never to you</p>
+<section class="layer" id="l3">
+  <div class="veil"></div><div class="edge top"></div><div class="edge bot"></div>
+  <div class="wrap">
+    <div class="lbl">The jars</div>
+    <h2 class="big">Every handle someone opened a coin for</h2>
+    <p class="sub">Sorted by what is waiting inside. A jar keeps filling whether or not its handle has ever shown up</p>
+    <div class="jars" id="jarList"><div class="empty">Reading the chain</div></div>
+  </div>
+</section>
+
+<section class="layer" id="l4">
+  <div class="veil"></div><div class="edge top"></div><div class="edge bot"></div>
+  <div class="wrap">
+    <div class="lbl">Open a coin</div>
+    <h2 class="big">Point a new coin at a handle</h2>
+    <p class="sub">One transaction on Pons. You pay the launch fee and gas; the creator fees go to the handle's jar, never to you</p>
+    <div class="form">
+      <div>
         <div class="f"><label for="oHandle">X handle the tips are for</label><input id="oHandle" placeholder="vladtenev" autocomplete="off" spellcheck="false"></div>
         <div class="two">
           <div class="f"><label for="oName">Coin name</label><input id="oName" maxlength="40" placeholder="Vlad Tips"></div>
@@ -163,41 +228,41 @@ button,input,textarea{font:inherit;color:inherit}
           <label class="file" for="oLogo"><span class="pick">Choose an image</span><span class="name" id="oLogoName">square png, jpg or webp</span></label>
           <input id="oLogo" type="file" accept="image/png,image/jpeg,image/webp" hidden>
         </div>
-        <div class="find"><button class="btn mint" id="oGo">Open the coin</button><span class="note" id="oFee"></span></div>
+        <div class="find" style="justify-content:flex-start;margin:0"><button class="btn mint" id="oGo">Open the coin</button><span class="note" id="oFee"></span></div>
         <div class="err" id="oErr"></div>
       </div>
-
-      <div class="pane" id="p3" hidden>
-        <h2>How it works</h2>
-        <div class="flow">
-          <div><b>01</b><div><h4>Open</h4><p>Anyone opens a coin for a handle. The jar is created with it and receives every creator fee, 3% of each trade plus most of the Pons curve fee</p></div></div>
-          <div><b>02</b><div><h4>Harvest</h4><p>Anyone can sweep and harvest: 15% goes to the $STIPS burn, the rest buys NVDA at no worse than the Chainlink price minus 2%</p></div></div>
-          <div><b>03</b><div><h4>Claim</h4><p>The handle posts a code, the oracle signs it, and after 48 hours the jar pays out to that wallet, now and on every later harvest</p></div></div>
-        </div>
+      <div class="rules">
+        <div><span>Creator tax on every trade</span><b>3%</b></div>
+        <div><span>Goes to the handle's jar</span><b>85%, as NVDA</b></div>
+        <div><span>Goes to the $STIPS burn</span><b>15%</b></div>
+        <div><span>Goes to you</span><b>nothing</b></div>
+        <div><span>Who can claim the jar</span><b>the handle, after a 48 hour wait</b></div>
         <p class="note">Opening a coin for someone is not an endorsement by them. Until the handle claims its jar, nobody can move what is inside</p>
-        <div class="find" style="margin-top:12px"><a class="btn" href="/docs">Read the docs</a></div>
       </div>
     </div>
   </div>
 </section>
 
-<section class="lidwrap"><div class="wrap">
-  <div class="k">The contract is engraved on the lid</div>
-  <div class="lid" id="lid" role="button" tabindex="0" aria-label="Copy contract address">
-    <div class="face">
-      <div class="mark">Stock Tips</div>
-      <div class="ca" id="caAddr"></div>
-      <div class="sub" id="caSub">$STIPS · Robinhood Chain</div>
+<section class="layer" id="l5">
+  <div class="veil"></div><div class="edge top"></div>
+  <div class="wrap">
+    <div class="lbl">The contract is engraved on the lid</div>
+    <div class="lid" id="lid" role="button" tabindex="0" aria-label="Copy contract address">
+      <div class="face">
+        <div class="mark">Stock Tips</div>
+        <div class="ca" id="caAddr"></div>
+        <div class="sub" id="caSub"></div>
+      </div>
+    </div>
+    <button class="cp" id="caCopy" type="button">[ COPY ]</button>
+    <div class="acts">
+      <a class="btn mint" id="buyLink" target="_blank" rel="noopener">Buy</a>
+      <a class="btn" id="xLink" target="_blank" rel="noopener" aria-label="X"><svg viewBox="0 0 24 24" width="13" height="13" aria-hidden="true"><path fill="currentColor" d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg></a>
+      <a class="btn" id="chartLink" target="_blank" rel="noopener">Chart</a>
+      <a class="btn" href="/docs">Docs</a>
     </div>
   </div>
-  <button class="cp" id="caCopy" type="button">[ COPY ]</button>
-  <div class="acts">
-    <a class="btn mint" id="buyLink" target="_blank" rel="noopener">Buy</a>
-    <a class="btn" id="xLink" target="_blank" rel="noopener" aria-label="X"><svg viewBox="0 0 24 24" width="13" height="13" aria-hidden="true"><path fill="currentColor" d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg></a>
-    <a class="btn" id="chartLink" target="_blank" rel="noopener">Chart</a>
-    <a class="btn" href="/docs">Docs</a>
-  </div>
-</div></section>
+</section>
 
 <script type="module">
 import * as W from '/lib/wallet.js';
@@ -207,13 +272,12 @@ const $ = id => document.getElementById(id);
 const esc = s => String(s == null ? '' : s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
 const S = window.SITE, CA = /^0x[0-9a-fA-F]{40}$/.test(S.CA) ? S.CA : null;
 const still = matchMedia('(prefers-reduced-motion: reduce)');
-let logoData = '';
+let logoData = '', px = { eth: null, nvda: null };
 
 $('xTop').href = $('xLink').href = S.X_URL;
 $('buyTop').href = $('buyLink').href = CA ? 'https://www.ponsfamily.com/launchpad/' + CA : window.PONS_HOME;
 $('chartLink').href = CA ? 'https://dexscreener.com/robinhood/' + CA : window.DEX_HOME;
 
-/* the background loop stops for anyone who asked for less motion, and while the tab is hidden */
 const heroVid = $('heroVid');
 if (heroVid) {
   const apply = () => { if (still.matches || document.hidden) heroVid.pause(); else heroVid.play().catch(() => {}); };
@@ -241,149 +305,48 @@ $('caCopy').onclick = copyCA;
 $('lid').addEventListener('click', copyCA);
 $('lid').addEventListener('keydown', e => { if (e.key === 'Enter') copyCA(); });
 
-/* ---------------------------------------------------------------- the jar: one coin per jar on Stock Tips, plus any you drop in */
-const cv = $('jar'), cx = cv.getContext('2d');
-const COINS = [];
-const GROUND = 468, LEFT = 96, RIGHT = 324, PER_ROW = 6, ROW_H = 21;
-/* coins land in rows rather than pretending to be physics: a stack that never leaves one hanging in mid air */
-function slot(i) {
-  const row = Math.floor(i / PER_ROW), col = i % PER_ROW;
-  const span = (RIGHT - LEFT) - 52, w = span / PER_ROW;
-  const x = LEFT + 26 + w * (col + .5) + (row % 2 ? w * .3 : -w * .3);
-  return { x: Math.max(LEFT + 24, Math.min(RIGHT - 24, x)), y: GROUND - 14 - row * ROW_H };
+/* ---------------------------------------------------------------- what a coin pays, on real prices
+   creator tax 3% of volume, plus the creator's 70% share of the 1% Pons curve fee, so 3.7% in total.
+   The jar then keeps 15% for the burn and turns 85% into NVDA. Nothing here is invented: the rates are the
+   constants in the contracts, the prices come from Chainlink. */
+const TAX = 0.03, CURVE_FEE = 0.01, CREATOR_SHARE = 0.70, BURN = 0.15;
+const volFor = v => { const t = v / 100; return 0.1 * Math.pow(10, t * 4); };
+function calc() {
+  const eth = volFor(Number($('vol').value));
+  $('volVal').textContent = (eth >= 100 ? Math.round(eth) : eth >= 10 ? eth.toFixed(1) : eth.toFixed(2)) + ' ETH';
+  const fees = eth * (TAX + CURVE_FEE * CREATOR_SHARE);
+  const burn = fees * BURN, toNvda = fees - burn;
+  const usd = v => px.eth == null ? null : v * px.eth;
+  const fmt = v => v == null ? '—' : T.fmtUsd(v);
+  $('rFees').textContent = fmt(usd(fees));
+  $('rBurn').textContent = fmt(usd(burn));
+  $('rNvda').textContent = px.nvda ? T.fmtNum(usd(toNvda) / px.nvda, 4) + ' NVDA' : fmt(usd(toNvda));
+  $('calcFoot').textContent = px.eth
+    ? `At ${T.fmtUsd(px.eth)} per ETH and ${T.fmtUsd(px.nvda)} per NVDA, read from Chainlink just now. The rates are fixed in the contracts`
+    : 'Rates are fixed in the contracts and cannot be changed after deployment';
 }
-function addCoin(fromY) {
-  if (COINS.length > 150) return;
-  const s = slot(COINS.length);
-  /* with motion off, or the tab hidden (no animation frames run there), the coin is simply already in place */
-  const drop = !still.matches && !document.hidden;
-  COINS.push({ x: s.x, y: drop ? (fromY != null ? fromY : 150 - Math.random() * 40) : s.y, ty: s.y, vy: 0, r: 16 + Math.random() * 3, a: Math.random() * Math.PI, rest: !drop });
-}
-function step() {
-  for (const c of COINS) {
-    if (c.rest) continue;
-    c.vy += 0.62;
-    c.y += c.vy;
-    if (c.y >= c.ty) { c.y = c.ty; c.vy = 0; c.rest = true; }
-  }
-}
-function drawJar() {
-  cx.clearRect(0, 0, cv.width, cv.height);
-  /* glass */
-  cx.save();
-  cx.beginPath();
-  cx.moveTo(LEFT, 150);
-  cx.quadraticCurveTo(LEFT - 14, 320, LEFT + 4, 452);
-  cx.quadraticCurveTo(LEFT + 10, 476, LEFT + 40, 478);
-  cx.lineTo(RIGHT - 40, 478);
-  cx.quadraticCurveTo(RIGHT - 10, 476, RIGHT - 4, 452);
-  cx.quadraticCurveTo(RIGHT + 14, 320, RIGHT, 150);
-  cx.closePath();
-  cx.clip();
-  const g = cx.createLinearGradient(LEFT, 150, RIGHT, 478);
-  g.addColorStop(0, 'rgba(180,235,210,.10)');
-  g.addColorStop(1, 'rgba(120,200,170,.05)');
-  cx.fillStyle = g;
-  cx.fillRect(0, 0, cv.width, cv.height);
-  for (const c of COINS) {
-    cx.save();
-    cx.translate(c.x, c.y);
-    cx.rotate(Math.sin(c.a) * .3);
-    const cg = cx.createLinearGradient(-c.r, -c.r, c.r, c.r);
-    cg.addColorStop(0, '#ffe9ad');
-    cg.addColorStop(.5, '#e7b348');
-    cg.addColorStop(1, '#a87a1c');
-    cx.fillStyle = cg;
-    cx.beginPath();
-    cx.ellipse(0, 0, c.r, c.r * .62, 0, 0, Math.PI * 2);
-    cx.fill();
-    cx.strokeStyle = 'rgba(90,62,10,.5)';
-    cx.lineWidth = 1;
-    cx.stroke();
-    cx.restore();
-  }
-  cx.restore();
-  /* the glass itself, drawn over the coins */
-  cx.strokeStyle = 'rgba(190,240,215,.5)';
-  cx.lineWidth = 3;
-  cx.beginPath();
-  cx.moveTo(LEFT, 150);
-  cx.quadraticCurveTo(LEFT - 14, 320, LEFT + 4, 452);
-  cx.quadraticCurveTo(LEFT + 10, 476, LEFT + 40, 478);
-  cx.lineTo(RIGHT - 40, 478);
-  cx.quadraticCurveTo(RIGHT - 10, 476, RIGHT - 4, 452);
-  cx.quadraticCurveTo(RIGHT + 14, 320, RIGHT, 150);
-  cx.stroke();
-  /* the brass lid, the same object the contract is engraved on */
-  const lg = cx.createLinearGradient(LEFT - 16, 108, RIGHT + 16, 150);
-  lg.addColorStop(0, '#8a6a1e');
-  lg.addColorStop(.4, '#f0d494');
-  lg.addColorStop(.7, '#c49a3a');
-  lg.addColorStop(1, '#7d5f1c');
-  cx.fillStyle = lg;
-  cx.beginPath();
-  cx.roundRect(LEFT - 16, 112, (RIGHT + 16) - (LEFT - 16), 40, 9);
-  cx.fill();
-  cx.fillStyle = 'rgba(255,240,200,.25)';
-  cx.fillRect(LEFT - 16, 118, (RIGHT + 16) - (LEFT - 16), 3);
-  /* highlight */
-  cx.strokeStyle = 'rgba(255,255,255,.18)';
-  cx.lineWidth = 6;
-  cx.beginPath();
-  cx.moveTo(LEFT + 22, 200);
-  cx.quadraticCurveTo(LEFT + 8, 320, LEFT + 26, 430);
-  cx.stroke();
-}
-let raf = null;
-function loop() {
-  step();
-  drawJar();
-  if (COINS.some(c => !c.rest) && !still.matches) raf = requestAnimationFrame(loop);
-  else raf = null;
-}
-const kick = () => { if (!raf) raf = requestAnimationFrame(loop); };
-/* nothing animates in a hidden tab, so put everything where it belongs before it is looked at again */
-document.addEventListener('visibilitychange', () => {
-  if (!document.hidden) return kick();
-  for (const c of COINS) { c.y = c.ty; c.rest = true; }
-  drawJar();
-});
-cv.addEventListener('click', () => {
-  addCoin(140);
-  $('jarCap').innerHTML = `<b>${COINS.length}</b> coins in the jar`;
-  if (still.matches || document.hidden) drawJar(); else kick();
-});
-drawJar();
+$('vol').addEventListener('input', calc);
+calc();
+T.prices().then(p => { px = p; $('pxEth').textContent = p.eth ? T.fmtUsd(p.eth) : 'unavailable'; $('pxNvda').textContent = p.nvda ? T.fmtUsd(p.nvda) : 'unavailable'; calc(); }).catch(() => { $('pxEth').textContent = $('pxNvda').textContent = 'unavailable'; });
 
-/* ---------------------------------------------------------------- the deck */
-document.querySelectorAll('.tab').forEach(t => t.onclick = () => {
-  document.querySelectorAll('.tab').forEach(o => o.setAttribute('aria-selected', String(o === t)));
-  ['p1', 'p2', 'p3'].forEach(id => { $(id).hidden = id !== t.dataset.pane; });
-});
-
+/* ---------------------------------------------------------------- jars */
 const goHandle = () => { const h = T.cleanHandle($('find').value); if (T.validHandle(h)) location.href = '/@' + h; else $('find').focus(); };
 $('findGo').onclick = goHandle;
 $('find').addEventListener('keydown', e => { if (e.key === 'Enter') goHandle(); });
 
 async function load() {
-  if (!T.FACTORY) {
-    $('jarList').innerHTML = '<div class="empty">Jars appear here once Stock Tips is deployed</div>';
-    $('jarCap').innerHTML = 'Tap the jar';
-    return;
-  }
+  if (!T.FACTORY) { $('jarList').innerHTML = '<div class="empty">Jars appear here once Stock Tips is deployed</div>'; return; }
   try {
     const { jars } = await T.loadAll();
+    $('sJars').textContent = jars.length;
+    $('sValue').textContent = T.fmtUsd(jars.reduce((s, j) => s + (j.usd || 0), 0));
+    $('sNvda').textContent = T.fmtNum(jars.reduce((s, j) => s + T.shares(j.totalNvda), 0), 3);
     $('jarList').innerHTML = jars.length ? jars.map(j => `
       <a class="jarcard" href="/@${esc(j.handle)}">
         <b>@${esc(j.handle)}</b>
         <div class="v">${T.fmtUsd(j.usd)}</div>
         <small>${T.fmtNum(T.shares(j.nvda), 4)} NVDA · ${j.wallet && j.wallet !== '0x0000000000000000000000000000000000000000' ? 'claimed' : 'unclaimed'}</small>
       </a>`).join('') : '<div class="empty">No jars yet, open the first coin</div>';
-    /* one coin for every jar that exists, dropped in as the page reads the chain */
-    const want = Math.min(120, jars.length);
-    let have = COINS.length;
-    for (let i = have; i < want; i++) setTimeout(() => { addCoin(); kick(); }, (i - have) * 90);
-    if (want) $('jarCap').innerHTML = `<b>${want}</b> jar${want === 1 ? '' : 's'} on Stock Tips · tap to add a coin`;
   } catch (e) {
     $('jarList').innerHTML = `<div class="empty">Could not read the factory: ${esc(e.shortMessage || e.message)}</div>`;
   }
