@@ -55,16 +55,16 @@ pre{font:inherit;background:var(--deep);border:1px solid var(--line);border-radi
 ul{margin:0 0 12px;padding-left:18px;max-width:66ch;color:#cfe3d8}
 li{margin-bottom:5px}
 .note{border-left:2px solid var(--gold);padding-left:12px;color:var(--dim);margin:14px 0;max-width:62ch}
-.slip{width:min(520px,100%);background:var(--paper);color:#21201c;border-radius:6px;padding:22px 20px 26px;position:relative;box-shadow:0 22px 50px rgba(0,0,0,.4);cursor:pointer;margin:16px 0 8px}
-.slip::before,.slip::after{content:"";position:absolute;left:0;right:0;height:12px;background:repeating-linear-gradient(90deg,var(--paper) 0 14px,transparent 14px 28px)}
-.slip::before{top:-6px}
-.slip::after{bottom:-6px}
-.slip h3{margin:0;color:#21201c;font:400 20px var(--d);text-align:center;letter-spacing:.02em;text-transform:none}
-.slip .line{border-top:1px dashed #b9b2a0;margin:12px 0}
-.slip .row{display:flex;justify-content:space-between;font-size:12px;gap:10px}
-.slip .ca{margin-top:12px;text-align:center;font-size:clamp(10px,2.3vw,14px);word-break:break-all;font-weight:500}
-.slip .ca.soon{font:400 30px var(--d)}
-.slip .copy{display:block;margin:10px auto 0;background:none;border:0;color:#1d6b46;font:500 11.5px var(--m);letter-spacing:.14em;cursor:pointer}
+.lid{width:min(330px,80vw);aspect-ratio:1;margin:16px 0 8px;border-radius:50%;position:relative;cursor:pointer;background:conic-gradient(from 0deg,#8a6a1e,#e9c877 6%,#a9832c 12%,#f3dc9f 19%,#9c7726 26%,#e9c877 33%,#8a6a1e 40%,#f0d494 47%,#a9832c 54%,#e9c877 62%,#8a6a1e 70%,#f3dc9f 78%,#a9832c 86%,#e9c877 94%,#8a6a1e 100%);box-shadow:0 22px 50px rgba(0,0,0,.5),inset 0 0 0 2px rgba(255,235,180,.35);transition:transform .5s cubic-bezier(.3,1.4,.5,1)}
+.lid::before{content:"";position:absolute;inset:6.5%;border-radius:50%;background:radial-gradient(circle at 34% 28%,#fbeec4,#c49a3a 45%,#7d5f1c 100%);box-shadow:inset 0 2px 5px rgba(255,255,255,.4),inset 0 -3px 8px rgba(0,0,0,.4)}
+.lid .face{position:absolute;inset:14%;border-radius:50%;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;padding:8%}
+.lid .mark{font:400 clamp(14px,2.6vw,19px)/1 var(--d);color:#6a4f14;text-shadow:0 1px 0 rgba(255,238,196,.55)}
+.lid .ca{font:500 clamp(6px,1.35vw,9.5px)/1.5 var(--m);color:#5c4410;word-break:break-all;text-align:center;text-shadow:0 1px 0 rgba(255,240,200,.5)}
+.lid .ca.soon{font:400 clamp(22px,5.5vw,34px)/1 var(--d);letter-spacing:.16em}
+.lid .sub{font:500 8px var(--m);letter-spacing:.22em;text-transform:uppercase;color:#7a5c19}
+.lid:hover{transform:rotate(-7deg)}
+.lid.turn{transform:rotate(-24deg)}
+.lidcopy{display:block;margin:14px 0 0;background:none;border:0;color:var(--gold);font:500 11px var(--m);letter-spacing:.18em;cursor:pointer}
 @media (max-width:900px){.page{grid-template-columns:1fr;gap:0}nav.toc{position:static;padding:22px 0 0}nav.toc ol{display:flex;flex-wrap:wrap;gap:4px;border-left:0}nav.toc a{border:1px solid var(--line);border-radius:999px;padding:4px 11px;margin:0}nav.toc a.on{border-color:var(--mint)}}
 @media (max-width:620px){.top .r .btn.hideSm{display:none}.top .in{gap:9px}.brand b{font-size:16px}.brand img{width:28px;height:28px}.chip{display:none}}
 @media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}*{transition:none!important;animation:none!important}}
@@ -205,17 +205,14 @@ li{margin-bottom:5px}
       <div><span>ETH / USD feed</span><b>0x78F3556b67E17Df817D51Ef5a990cDaF09E8d3A9</b></div>
     </div>
 
-    <div class="slip" id="slip" role="button" tabindex="0" aria-label="Copy contract address">
-      <h3>Stock Tips</h3>
-      <div class="line"></div>
-      <div class="row"><span>TICKER</span><span>$STIPS</span></div>
-      <div class="row"><span>CHAIN</span><span>Robinhood Chain</span></div>
-      <div class="row"><span>LAUNCHPAD</span><span>Pons</span></div>
-      <div class="line"></div>
-      <div class="row"><span>CONTRACT</span><span id="slipState"></span></div>
-      <div class="ca" id="caAddr"></div>
-      <button class="copy" id="caCopy" type="button">[ COPY ]</button>
+    <div class="lid" id="lid" role="button" tabindex="0" aria-label="Copy contract address">
+      <div class="face">
+        <div class="mark">Stock Tips</div>
+        <div class="ca" id="caAddr"></div>
+        <div class="sub" id="caSub"></div>
+      </div>
     </div>
+    <button class="lidcopy" id="caCopy" type="button">[ COPY ]</button>
   </section>
 
   <section id="faq">
@@ -247,17 +244,19 @@ if (addr(window.STIPS_FACTORY)) $('aFactory').textContent = window.STIPS_FACTORY
 if (addr(window.STIPS_BURNER)) $('aBurner').textContent = window.STIPS_BURNER;
 $('caAddr').textContent = CA || 'soon';
 $('caAddr').classList.toggle('soon', !CA);
-$('slipState').textContent = CA ? 'live' : 'not launched yet';
+$('caSub').textContent = CA ? '$STIPS · Robinhood Chain' : 'not launched yet';
 async function copyCA(e) {
   if (e) e.stopPropagation();
-  const b = $('caCopy');
+  const b = $('caCopy'), lid = $('lid');
+  lid.classList.add('turn');
+  setTimeout(() => lid.classList.remove('turn'), 620);
   if (!CA) b.textContent = '[ NOT YET ]';
   else { try { await navigator.clipboard.writeText(CA); b.textContent = '[ COPIED ]'; } catch { b.textContent = '[ COPY FAILED ]'; } }
-  setTimeout(() => b.textContent = '[ COPY ]', 1400);
+  setTimeout(() => b.textContent = '[ COPY ]', 1500);
 }
 $('caCopy').onclick = copyCA;
-$('slip').addEventListener('click', e => { if (!e.target.closest('a')) copyCA(); });
-$('slip').addEventListener('keydown', e => { if (e.key === 'Enter') copyCA(); });
+$('lid').addEventListener('click', copyCA);
+$('lid').addEventListener('keydown', e => { if (e.key === 'Enter') copyCA(); });
 
 const links = [...document.querySelectorAll('nav.toc a')];
 const spy = new IntersectionObserver(es => {

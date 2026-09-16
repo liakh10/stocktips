@@ -15,200 +15,187 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Young+Serif&family=Martian+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
-:root{--bg:#07201a;--deep:#051610;--panel:#0c2a20;--panel2:#10382a;--line:#1d4c3a;--ink:#eaf5ee;--dim:#8fb3a3;--mint:#3ee58f;--gold:#f2c14e;--paper:#f6f1e3;--bad:#ff8080;--d:'Young Serif',Georgia,serif;--m:'Martian Mono',ui-monospace,monospace}
+:root{--bg:#07201a;--deep:#051610;--panel:#0c2a20;--panel2:#10382a;--line:#1d4c3a;--ink:#eaf5ee;--dim:#8fb3a3;--mint:#3ee58f;--gold:#f2c14e;--gold2:#ffdf9a;--bad:#ff8080;--d:'Young Serif',Georgia,serif;--m:'Martian Mono',ui-monospace,monospace}
 *{box-sizing:border-box}
-html{overflow-x:hidden;scroll-behavior:smooth}
-body{margin:0;background:var(--bg);color:var(--ink);font:13.5px/1.65 var(--m);background-image:radial-gradient(900px 520px at 80% -10%,rgba(62,229,143,.16),transparent 60%),radial-gradient(700px 400px at 0% 100%,rgba(242,193,78,.08),transparent 60%)}
+html{overflow-x:hidden}
+body{margin:0;background:var(--bg);color:var(--ink);font:13.5px/1.65 var(--m)}
 [hidden]{display:none!important}
 a{color:inherit}
 img{max-width:100%;display:block}
 button,input,textarea{font:inherit;color:inherit}
-.wrap{width:min(1120px,100%);margin:0 auto;padding:0 max(16px,env(safe-area-inset-left))}
-.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;height:42px;padding:0 18px;border-radius:12px;border:1px solid var(--line);background:var(--panel2);color:var(--ink);font:500 12.5px var(--m);letter-spacing:.04em;text-transform:uppercase;cursor:pointer;text-decoration:none;white-space:nowrap}
+.wrap{width:min(1180px,100%);margin:0 auto;padding:0 max(16px,env(safe-area-inset-left))}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;height:40px;padding:0 17px;border-radius:12px;border:1px solid var(--line);background:var(--panel2);color:var(--ink);font:500 12px var(--m);letter-spacing:.05em;text-transform:uppercase;cursor:pointer;text-decoration:none;white-space:nowrap}
 .btn:hover{border-color:var(--mint)}
 .btn.mint{background:linear-gradient(180deg,#4ff29c,#22c977);border-color:#4ff29c;color:#04180f;font-weight:600}
-.btn.gold{background:linear-gradient(180deg,#f7ce68,#dfa72c);border-color:#f7ce68;color:#22160a;font-weight:600}
-.btn.sm{height:34px;padding:0 12px;font-size:11.5px}
+.btn.sm{height:33px;padding:0 12px;font-size:11px}
 .btn:disabled{opacity:.45;cursor:not-allowed}
-.top{position:sticky;top:0;z-index:20;background:rgba(7,32,26,.9);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
-.top .wrap{display:flex;align-items:center;gap:16px;height:60px}
+.top{position:fixed;top:0;left:0;right:0;z-index:30;background:linear-gradient(180deg,rgba(5,22,16,.96),rgba(5,22,16,.55) 72%,transparent);padding-top:env(safe-area-inset-top,0px)}
+.top .wrap{display:flex;align-items:center;gap:16px;height:58px}
 .brand{display:flex;align-items:center;gap:10px;text-decoration:none}
-.brand img{width:32px;height:32px;border-radius:9px}
-.brand b{font:400 19px var(--d);letter-spacing:.01em;white-space:nowrap}
-.top nav{display:flex;gap:16px;font-size:11.5px;text-transform:uppercase;letter-spacing:.08em}
-.top nav a{text-decoration:none;color:var(--dim)}
-.top nav a:hover{color:var(--mint)}
+.brand img{width:30px;height:30px;border-radius:9px}
+.brand b{font:400 19px/1 var(--d);white-space:nowrap}
 .top .r{margin-left:auto;display:flex;gap:8px;align-items:center}
-.icon{width:34px;height:34px;border-radius:9px;border:1px solid var(--line);display:grid;place-items:center}
-.hero{position:relative;isolation:isolate;border-bottom:1px solid var(--line);min-height:calc(100vh - 60px);min-height:calc(100svh - 60px);display:flex;align-items:center}
-.heroIn{width:100%}
-.heroBg{position:absolute;inset:0;z-index:-1;overflow:hidden;background:var(--deep)}
-.heroBg video,.heroBg img.fallback{width:100%;height:100%;object-fit:cover;object-position:center;display:block;filter:brightness(1.14) saturate(1.06)}
-.heroBg::after{content:"";position:absolute;inset:0;background:radial-gradient(120% 90% at 50% 46%,rgba(5,22,16,.32) 0%,rgba(5,22,16,.62) 55%,rgba(5,22,16,.88) 100%),linear-gradient(180deg,rgba(5,22,16,.62) 0%,rgba(5,22,16,.34) 38%,rgba(7,32,26,.96) 100%)}
-.heroIn{padding:clamp(88px,17vh,178px) 0 clamp(52px,9vh,96px);text-align:center}
-.kicker{display:inline-block;font-size:10px;letter-spacing:.17em;text-transform:uppercase;color:var(--mint);border:1px solid rgba(62,229,143,.35);border-radius:999px;padding:4px 12px;margin-bottom:18px}
-.hero h1{margin:0 auto;font:400 clamp(34px,5.4vw,66px)/1.05 var(--d);letter-spacing:-.01em;max-width:17ch;text-shadow:0 2px 34px rgba(0,0,0,.75)}
-.hero h1 em{font-style:normal;color:var(--mint)}
-.hero p{margin:16px auto 0;color:#cbe0d5;max-width:52ch;text-shadow:0 1px 18px rgba(0,0,0,.8)}
-.find{display:flex;gap:8px;margin-top:26px;flex-wrap:wrap;justify-content:center}
-.find .at{display:flex;align-items:center;border:1px solid var(--line);border-radius:12px;background:rgba(5,22,16,.8);padding-left:12px;flex:1;min-width:220px;max-width:360px}
-.find .at span{color:var(--dim)}
-.find input{flex:1;height:44px;border:0;background:none;outline:0;padding:0 10px;min-width:0}
-.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin:38px auto 0;max-width:760px;text-align:left}
-.stat{border:1px solid rgba(29,76,58,.9);border-radius:14px;padding:12px;background:rgba(12,42,32,.66);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px)}
-.stat span{display:block;font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--dim)}
-.stat b{font:400 20px var(--d)}
-section.band{padding:56px 0;border-top:1px solid var(--line);scroll-margin-top:60px}
-.sh{display:flex;align-items:end;justify-content:space-between;gap:14px;flex-wrap:wrap;margin-bottom:20px}
-.sh h2{margin:0;font:400 clamp(24px,3.4vw,38px)/1.15 var(--d)}
-.sh p{margin:0;color:var(--dim);max-width:54ch}
-.jars{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:12px}
-.jarcard{display:block;text-decoration:none;border:1px solid var(--line);border-radius:16px;padding:14px;background:linear-gradient(180deg,var(--panel2),var(--panel))}
+.icon{width:33px;height:33px;border-radius:9px;border:1px solid var(--line);display:grid;place-items:center}
+.icon:hover{border-color:var(--mint)}
+
+/* ---------------------------------------------------------------- the shelf */
+.shelf{position:relative;min-height:100vh;min-height:100svh;display:flex;align-items:center;overflow:hidden}
+.shelf .bg{position:absolute;inset:0;z-index:0}
+.shelf .bg video,.shelf .bg img{width:100%;height:100%;object-fit:cover;filter:brightness(.62) blur(2.5px) saturate(.95);transform:scale(1.04)}
+.shelf .bg::after{content:"";position:absolute;inset:0;background:radial-gradient(110% 85% at 30% 50%,rgba(5,22,16,.55) 0%,rgba(5,22,16,.82) 55%,rgba(7,32,26,.96) 100%)}
+.shelf .in{position:relative;z-index:1;width:100%;padding:82px 0 34px;display:grid;grid-template-columns:minmax(0,420px) minmax(0,1fr);gap:30px;align-items:center}
+
+/* the jar you can drop a coin into */
+.jarbox{text-align:center}
+.jarbox canvas{width:100%;max-width:360px;height:auto;margin:0 auto;display:block;cursor:pointer;touch-action:manipulation}
+.jarbox .cap{margin-top:8px;font-size:11px;letter-spacing:.11em;text-transform:uppercase;color:var(--dim)}
+.jarbox .cap b{color:var(--gold2);font-weight:400}
+
+/* the card index */
+.deck{background:linear-gradient(180deg,rgba(16,56,42,.94),rgba(12,42,32,.94));border:1px solid var(--line);border-radius:18px;box-shadow:0 30px 70px rgba(0,0,0,.5);overflow:hidden}
+.tabs{display:flex;gap:0;border-bottom:1px solid var(--line);background:rgba(5,22,16,.4)}
+.tab{flex:1;background:none;border:0;border-right:1px solid var(--line);padding:13px 10px 11px;color:var(--dim);font:500 11px var(--m);letter-spacing:.1em;text-transform:uppercase;cursor:pointer;position:relative}
+.tab:last-child{border-right:0}
+.tab[aria-selected="true"]{color:var(--ink);background:rgba(62,229,143,.08)}
+.tab[aria-selected="true"]::after{content:"";position:absolute;left:14px;right:14px;bottom:-1px;height:2px;background:var(--mint);border-radius:2px}
+.pane{padding:20px}
+.pane h2{margin:0 0 4px;font:400 clamp(24px,3.2vw,36px)/1.08 var(--d)}
+.pane p.s{margin:0 0 16px;color:var(--dim);font-size:12.5px;max-width:52ch}
+.find{display:flex;gap:8px;flex-wrap:wrap}
+.at{display:flex;align-items:center;border:1px solid var(--line);border-radius:12px;background:var(--deep);padding-left:12px;flex:1;min-width:200px}
+.at span{color:var(--gold)}
+.at input{flex:1;height:44px;border:0;background:none;outline:0;padding:0 10px;min-width:0}
+.jars{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:8px;margin-top:14px;max-height:296px;overflow:auto}
+.jarcard{display:block;text-decoration:none;border:1px solid var(--line);border-radius:12px;padding:11px;background:rgba(5,22,16,.5)}
 .jarcard:hover{border-color:var(--mint)}
-.jh{display:flex;gap:10px;align-items:center;min-width:0}
-.jh img{width:44px;height:44px;border-radius:50%;flex:none;background:var(--deep)}
-.jh b{display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-weight:500}
-.jh small{color:var(--dim)}
-.jv{font:400 24px var(--d);margin:10px 0 2px}
-.jv em{font-style:normal;color:var(--mint)}
-.jrow{display:flex;justify-content:space-between;font-size:11.5px;color:var(--dim)}
-.tag{font-size:10px;text-transform:uppercase;letter-spacing:.08em;border:1px solid var(--line);border-radius:999px;padding:2px 8px;color:var(--dim)}
-.tag.paid{color:var(--mint);border-color:rgba(62,229,143,.5)}
-.empty{grid-column:1/-1;border:1px dashed var(--line);border-radius:16px;padding:32px;text-align:center;color:var(--dim)}
-.open{display:grid;grid-template-columns:1fr 1fr;gap:18px;align-items:start}
-.box{border:1px solid var(--line);border-radius:18px;padding:18px;background:linear-gradient(180deg,var(--panel2),var(--panel))}
-.f{display:grid;gap:5px;margin-bottom:12px}
-.f label{font-size:10.5px;color:var(--dim);text-transform:uppercase;letter-spacing:.08em}
+.jarcard b{display:block;font-weight:400;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.jarcard .v{font:400 20px var(--d);color:var(--gold2);margin-top:6px}
+.jarcard small{color:var(--dim);font-size:10.5px}
+.empty{grid-column:1/-1;border:1px dashed var(--line);border-radius:12px;padding:24px;text-align:center;color:var(--dim)}
+.f{display:grid;gap:5px;margin-bottom:11px}
+.f label{font-size:10px;color:var(--dim);text-transform:uppercase;letter-spacing:.09em}
 .f input,.f textarea{border:1px solid var(--line);border-radius:11px;background:var(--deep);padding:10px 12px;outline:0;min-width:0}
 .f input:focus,.f textarea:focus{border-color:var(--mint)}
-.f textarea{min-height:64px;resize:vertical}
+.f textarea{min-height:56px;resize:vertical}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:9px}
 .file{display:flex;align-items:center;gap:10px;border:1px solid var(--line);border-radius:11px;background:var(--deep);padding:6px 10px 6px 6px;cursor:pointer;min-width:0}
 .file:hover{border-color:var(--mint)}
-.file .pick{border:1px solid var(--line);border-radius:8px;padding:6px 11px;font-size:11px;letter-spacing:.05em;text-transform:uppercase;background:var(--panel2);white-space:nowrap}
-.file .name{color:var(--dim);font-size:11.5px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;min-width:0}
-.two{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-.note{font-size:11.5px;color:var(--dim);margin-top:10px}
-.err{color:var(--bad);font-size:12px;min-height:18px;margin-top:8px}
-.steps{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
-.steps div{border:1px solid var(--line);border-radius:16px;padding:16px;background:var(--panel)}
-.steps b{font:400 22px var(--d);color:var(--gold)}
-.steps h4{margin:6px 0 4px;font:400 15px var(--d)}
-.steps p{margin:0;font-size:12px;color:var(--dim)}
-.receipt{padding:70px 0 90px;border-top:1px solid var(--line)}
-.slip{width:min(560px,100%);margin:0 auto;background:var(--paper);color:#21201c;border-radius:6px;padding:26px 24px 30px;position:relative;box-shadow:0 30px 60px rgba(0,0,0,.45);cursor:pointer}
-.slip::before,.slip::after{content:"";position:absolute;left:0;right:0;height:12px;background:repeating-linear-gradient(90deg,var(--paper) 0 14px,transparent 14px 28px)}
-.slip::before{top:-6px}
-.slip::after{bottom:-6px}
-.slip h3{margin:0;font:400 22px var(--d);text-align:center;letter-spacing:.02em}
-.slip .line{border-top:1px dashed #b9b2a0;margin:14px 0}
-.slip .row{display:flex;justify-content:space-between;font-size:12px;gap:10px}
-.slip .ca{margin-top:12px;text-align:center;font-size:clamp(10px,2.4vw,15px);word-break:break-all;font-weight:500}
-.slip .ca.soon{font:400 34px var(--d)}
-.slip .copy{display:block;margin:10px auto 0;background:none;border:0;color:#1d6b46;font:500 11.5px var(--m);letter-spacing:.14em;cursor:pointer}
-.slip .links{display:flex;gap:8px;justify-content:center;margin-top:16px;flex-wrap:wrap}
-.slip .btn{height:36px;font-size:11px;color:#21201c;border-color:#c9c2b0;background:#efe9da}
-.slip .btn.mint{color:#04180f}
-@media (max-width:920px){.heroIn{padding:52px 0 40px}.hero h1{max-width:none}.open{grid-template-columns:1fr}.steps{grid-template-columns:repeat(2,1fr)}.stats{grid-template-columns:repeat(2,1fr)}.heroBg::after{background:radial-gradient(130% 70% at 50% 44%,rgba(5,22,16,.4) 0%,rgba(5,22,16,.7) 60%,rgba(5,22,16,.9) 100%),linear-gradient(180deg,rgba(5,22,16,.72) 0%,rgba(5,22,16,.45) 32%,rgba(7,32,26,.97) 100%)}}
-@media (max-width:620px){.top nav{display:none}.two{grid-template-columns:1fr}.steps{grid-template-columns:1fr}.top .wrap{gap:10px}.brand b{font-size:16px}.brand img{width:28px;height:28px}#buyTop{display:none}}
-@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}*{transition:none!important;animation:none!important}}
+.file .pick{border:1px solid var(--line);border-radius:8px;padding:6px 11px;font-size:10.5px;letter-spacing:.05em;text-transform:uppercase;background:var(--panel2);white-space:nowrap}
+.file .name{color:var(--dim);font-size:11px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;min-width:0}
+.err{color:var(--bad);font-size:12px;min-height:17px;margin-top:7px}
+.note{font-size:11.5px;color:var(--dim);margin-top:9px}
+.flow{display:grid;gap:9px;margin-top:4px}
+.flow div{display:flex;gap:11px;align-items:flex-start;border-left:2px solid var(--line);padding-left:12px}
+.flow b{font:400 19px var(--d);color:var(--gold);min-width:26px}
+.flow p{margin:0;font-size:12.5px;color:#cfe3d8}
+.flow h4{margin:0 0 2px;font:400 15px var(--d)}
+
+/* ---------------------------------------------------------------- the lid: the contract is engraved on it */
+.lidwrap{padding:70px 0 96px;text-align:center;border-top:1px solid var(--line)}
+.lidwrap .k{font-size:10.5px;letter-spacing:.2em;text-transform:uppercase;color:var(--dim);margin-bottom:22px}
+.lid{width:min(420px,88vw);aspect-ratio:1;margin:0 auto;border-radius:50%;position:relative;cursor:pointer;background:conic-gradient(from 0deg,#8a6a1e,#e9c877 6%,#a9832c 12%,#f3dc9f 19%,#9c7726 26%,#e9c877 33%,#8a6a1e 40%,#f0d494 47%,#a9832c 54%,#e9c877 62%,#8a6a1e 70%,#f3dc9f 78%,#a9832c 86%,#e9c877 94%,#8a6a1e 100%);box-shadow:0 26px 60px rgba(0,0,0,.55),inset 0 0 0 2px rgba(255,235,180,.35);transition:transform .5s cubic-bezier(.3,1.4,.5,1)}
+.lid::before{content:"";position:absolute;inset:6.5%;border-radius:50%;background:radial-gradient(circle at 34% 28%,#fbeec4,#c49a3a 45%,#7d5f1c 100%);box-shadow:inset 0 2px 5px rgba(255,255,255,.4),inset 0 -3px 8px rgba(0,0,0,.4)}
+.lid .face{position:absolute;inset:14%;border-radius:50%;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:9px;padding:8%}
+.lid .mark{font:400 clamp(15px,3.4vw,23px)/1 var(--d);color:#6a4f14;text-shadow:0 1px 0 rgba(255,238,196,.55)}
+.lid .ca{font:600 clamp(6.5px,1.55vw,11px)/1.5 var(--m);color:#5c4410;word-break:break-all;text-shadow:0 1px 0 rgba(255,240,200,.5);letter-spacing:.02em;max-width:100%}
+.lid .ca.soon{font:400 clamp(26px,7vw,46px)/1 var(--d);letter-spacing:.16em}
+.lid .sub{font:500 9px var(--m);letter-spacing:.24em;text-transform:uppercase;color:#7a5c19}
+.lid:hover{transform:rotate(-7deg)}
+.lid.turn{transform:rotate(-24deg)}
+.lidwrap .cp{background:none;border:0;color:var(--gold2);font:500 11px var(--m);letter-spacing:.2em;cursor:pointer;margin-top:20px}
+.lidwrap .acts{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin-top:14px}
+
+@media (max-width:900px){.shelf .in{grid-template-columns:1fr;gap:18px;padding:74px 0 26px}.jarbox canvas{max-width:250px}.two{grid-template-columns:1fr}.jars{max-height:none}}
+@media (max-width:620px){.brand b{font-size:17px}#buyTop{display:none}.tab{font-size:10px;letter-spacing:.05em;padding:12px 6px 10px}}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
 </style>
 </head>
 <body>
 <header class="top"><div class="wrap">
   <a class="brand" href="/"><img src="/assets/favicon.png" alt=""><b>Stock Tips</b></a>
-  <nav><a href="#jars">Jars</a><a href="#open">Open a coin</a><a href="#how">How it works</a><a href="/docs">Docs</a></nav>
   <div class="r">
-    <a class="icon" id="xTop" target="_blank" rel="noopener" aria-label="X"><svg viewBox="0 0 24 24" width="14" height="14" aria-hidden="true"><path fill="currentColor" d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg></a>
+    <a class="btn sm" href="/docs">Docs</a>
+    <a class="icon" id="xTop" target="_blank" rel="noopener" aria-label="X"><svg viewBox="0 0 24 24" width="13" height="13" aria-hidden="true"><path fill="currentColor" d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg></a>
     <a class="btn sm" id="buyTop" target="_blank" rel="noopener">Buy $STIPS</a>
     <button class="btn sm mint" id="connect">Connect</button>
   </div>
 </div></header>
 
-<section class="hero">
-  <div class="heroBg" id="heroBg">
+<section class="shelf">
+  <div class="bg">
     <video id="heroVid" autoplay muted loop playsinline preload="auto" poster="/assets/video/hero-poster.v3.jpg" aria-hidden="true" tabindex="-1">
       <source src="/assets/video/hero.v3.mp4" type="video/mp4">
     </video>
   </div>
-  <div class="wrap heroIn">
-    <span class="kicker">On Robinhood Chain · built for X</span>
-    <h1>Every X handle gets <em>stock tips</em></h1>
-    <p>Open a coin for any handle on Robinhood Chain. Its trading fees buy NVDA into that handle's jar, and only the handle can take it out</p>
-    <div class="find">
-      <label class="at" for="find"><span>@</span><input id="find" placeholder="handle" autocomplete="off" spellcheck="false"></label>
-      <button class="btn mint" id="findGo">Open the jar</button>
+  <div class="wrap in">
+    <div class="jarbox">
+      <canvas id="jar" width="420" height="520" aria-label="A jar that fills with a coin for every jar on Stock Tips"></canvas>
+      <div class="cap" id="jarCap">Tap the jar</div>
     </div>
-    <div class="stats">
-      <div class="stat"><span>Jars</span><b id="sJars">·</b></div>
-      <div class="stat"><span>Coins</span><b id="sCoins">·</b></div>
-      <div class="stat"><span>In jars</span><b id="sValue">·</b></div>
-      <div class="stat"><span>$STIPS burned</span><b id="sBurn">·</b></div>
+
+    <div class="deck">
+      <div class="tabs" role="tablist">
+        <button class="tab" role="tab" aria-selected="true" data-pane="p1">The jars</button>
+        <button class="tab" role="tab" aria-selected="false" data-pane="p2">Open a coin</button>
+        <button class="tab" role="tab" aria-selected="false" data-pane="p3">How it works</button>
+      </div>
+
+      <div class="pane" id="p1">
+        <h2>Every X handle gets <span style="color:var(--mint)">stock tips</span></h2>
+        <p class="s">Open a coin for any handle. Its trading fees buy NVDA into that handle's jar, and only the handle can take it out</p>
+        <div class="find">
+          <label class="at" for="find"><span>@</span><input id="find" placeholder="handle" autocomplete="off" spellcheck="false" maxlength="15" aria-label="X handle"></label>
+          <button class="btn mint" id="findGo">Open the jar</button>
+        </div>
+        <div class="jars" id="jarList"><div class="empty">Reading the chain</div></div>
+      </div>
+
+      <div class="pane" id="p2" hidden>
+        <h2>Open a coin</h2>
+        <p class="s">One transaction on Pons. You pay the launch fee and gas; the creator fees go to the handle's jar, never to you</p>
+        <div class="f"><label for="oHandle">X handle the tips are for</label><input id="oHandle" placeholder="vladtenev" autocomplete="off" spellcheck="false"></div>
+        <div class="two">
+          <div class="f"><label for="oName">Coin name</label><input id="oName" maxlength="40" placeholder="Vlad Tips"></div>
+          <div class="f"><label for="oSymbol">Ticker</label><input id="oSymbol" maxlength="10" placeholder="VLAD"></div>
+        </div>
+        <div class="f"><label for="oDesc">Description</label><textarea id="oDesc" maxlength="300"></textarea></div>
+        <div class="f"><label for="oLogo">Logo</label>
+          <label class="file" for="oLogo"><span class="pick">Choose an image</span><span class="name" id="oLogoName">square png, jpg or webp</span></label>
+          <input id="oLogo" type="file" accept="image/png,image/jpeg,image/webp" hidden>
+        </div>
+        <div class="find"><button class="btn mint" id="oGo">Open the coin</button><span class="note" id="oFee"></span></div>
+        <div class="err" id="oErr"></div>
+      </div>
+
+      <div class="pane" id="p3" hidden>
+        <h2>How it works</h2>
+        <div class="flow">
+          <div><b>01</b><div><h4>Open</h4><p>Anyone opens a coin for a handle. The jar is created with it and receives every creator fee, 3% of each trade plus most of the Pons curve fee</p></div></div>
+          <div><b>02</b><div><h4>Harvest</h4><p>Anyone can sweep and harvest: 15% goes to the $STIPS burn, the rest buys NVDA at no worse than the Chainlink price minus 2%</p></div></div>
+          <div><b>03</b><div><h4>Claim</h4><p>The handle posts a code, the oracle signs it, and after 48 hours the jar pays out to that wallet, now and on every later harvest</p></div></div>
+        </div>
+        <p class="note">Opening a coin for someone is not an endorsement by them. Until the handle claims its jar, nobody can move what is inside</p>
+        <div class="find" style="margin-top:12px"><a class="btn" href="/docs">Read the docs</a></div>
+      </div>
     </div>
   </div>
 </section>
 
-<section class="band" id="jars"><div class="wrap">
-  <div class="sh"><h2>Jars</h2><p>Every handle someone opened a coin for, richest first</p></div>
-  <div class="jars" id="jarList"><div class="empty">Loading jars</div></div>
-</div></section>
-
-<section class="band" id="open"><div class="wrap">
-  <div class="sh"><h2>Open a coin</h2><p>One transaction on Pons. You pay only the Pons launch fee and gas; the coin's creator fees go to the handle's jar, never to you</p></div>
-  <div class="open">
-    <div class="box">
-      <div class="f"><label for="oHandle">X handle the tips are for</label><input id="oHandle" placeholder="vladtenev" autocomplete="off" spellcheck="false"></div>
-      <div class="two">
-        <div class="f"><label for="oName">Coin name</label><input id="oName" maxlength="40" placeholder="Vlad Tips"></div>
-        <div class="f"><label for="oSymbol">Ticker</label><input id="oSymbol" maxlength="10" placeholder="VLAD"></div>
-      </div>
-      <div class="f"><label for="oDesc">Description</label><textarea id="oDesc" maxlength="300"></textarea></div>
-      <div class="f"><label for="oLogo">Logo</label>
-        <label class="file" for="oLogo"><span class="pick">Choose an image</span><span class="name" id="oLogoName">square png, jpg or webp</span></label>
-        <input id="oLogo" type="file" accept="image/png,image/jpeg,image/webp" hidden>
-      </div>
-      <div class="find" style="margin-top:4px"><button class="btn mint" id="oGo">Open the coin</button><span class="note" id="oFee"></span></div>
-      <div class="err" id="oErr"></div>
-    </div>
-    <div class="box">
-      <h3 style="margin:0 0 10px;font:400 18px var(--d)">What the coin does</h3>
-      <div class="jrow"><span>Creator tax on every trade</span><b>3%</b></div>
-      <div class="line"></div>
-      <div class="jrow" style="margin-top:8px"><span>Jar of the handle</span><b>85% of the fees, in NVDA</b></div>
-      <div class="jrow" style="margin-top:6px"><span>$STIPS burn</span><b>15% of the fees</b></div>
-      <div class="jrow" style="margin-top:6px"><span>You, the opener</span><b>nothing</b></div>
-      <p class="note">Pons charges its own 1% curve fee and sends 70% of it to the same jar. Anyone can sweep the fees and harvest a jar; harvesting buys NVDA at no worse than the Chainlink price minus 2%</p>
-      <p class="note">Opening a coin for someone is not an endorsement by them. Until the handle claims its jar, nobody can move what is inside</p>
+<section class="lidwrap"><div class="wrap">
+  <div class="k">The contract is engraved on the lid</div>
+  <div class="lid" id="lid" role="button" tabindex="0" aria-label="Copy contract address">
+    <div class="face">
+      <div class="mark">Stock Tips</div>
+      <div class="ca" id="caAddr"></div>
+      <div class="sub" id="caSub">$STIPS · Robinhood Chain</div>
     </div>
   </div>
-</div></section>
-
-<section class="band" id="how"><div class="wrap">
-  <div class="sh"><h2>How it works</h2><a class="btn sm" href="/docs">Docs</a></div>
-  <div class="steps">
-    <div><b>01</b><h4>Open</h4><p>Anyone opens a coin for a handle. The jar of that handle is created with it and receives every creator fee</p></div>
-    <div><b>02</b><h4>Trade</h4><p>People trade the coin on Pons. Fees pile up on the curve until anyone sweeps them into the jar</p></div>
-    <div><b>03</b><h4>Harvest</h4><p>Anyone harvests: 15% goes to the $STIPS burn and 85% becomes NVDA that waits in the jar</p></div>
-    <div><b>04</b><h4>Claim</h4><p>The handle posts a code, the oracle signs it, and after 48 hours the jar pays out to that wallet</p></div>
-  </div>
-</div></section>
-
-<section class="receipt"><div class="wrap">
-  <div class="slip" id="slip" role="button" tabindex="0" aria-label="Copy contract address">
-    <h3>Stock Tips</h3>
-    <div class="line"></div>
-    <div class="row"><span>TICKER</span><span>$STIPS</span></div>
-    <div class="row"><span>CHAIN</span><span>Robinhood Chain</span></div>
-    <div class="row"><span>LAUNCHPAD</span><span>Pons</span></div>
-    <div class="row"><span>FEES</span><span>15% of every jar harvest, burned</span></div>
-    <div class="line"></div>
-    <div class="row"><span>CONTRACT</span><span id="slipState"></span></div>
-    <div class="ca" id="caAddr"></div>
-    <button class="copy" id="caCopy" type="button">[ COPY ]</button>
-    <div class="links">
-      <a class="btn mint" id="buyLink" target="_blank" rel="noopener">Buy</a>
-      <a class="btn" id="xLink" target="_blank" rel="noopener" aria-label="X"><svg viewBox="0 0 24 24" width="14" height="14" aria-hidden="true"><path fill="currentColor" d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg></a>
-      <a class="btn" id="chartLink" target="_blank" rel="noopener">Chart</a>
-    </div>
+  <button class="cp" id="caCopy" type="button">[ COPY ]</button>
+  <div class="acts">
+    <a class="btn mint" id="buyLink" target="_blank" rel="noopener">Buy</a>
+    <a class="btn" id="xLink" target="_blank" rel="noopener" aria-label="X"><svg viewBox="0 0 24 24" width="13" height="13" aria-hidden="true"><path fill="currentColor" d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg></a>
+    <a class="btn" id="chartLink" target="_blank" rel="noopener">Chart</a>
+    <a class="btn" href="/docs">Docs</a>
   </div>
 </div></section>
 
@@ -219,68 +206,190 @@ import * as T from '/lib/tips.js';
 const $ = id => document.getElementById(id);
 const esc = s => String(s == null ? '' : s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
 const S = window.SITE, CA = /^0x[0-9a-fA-F]{40}$/.test(S.CA) ? S.CA : null;
+const still = matchMedia('(prefers-reduced-motion: reduce)');
 let logoData = '';
 
-/* the background loop is decoration: it stops for anyone who asked for less motion, and while the tab is hidden */
+$('xTop').href = $('xLink').href = S.X_URL;
+$('buyTop').href = $('buyLink').href = CA ? 'https://www.ponsfamily.com/launchpad/' + CA : window.PONS_HOME;
+$('chartLink').href = CA ? 'https://dexscreener.com/robinhood/' + CA : window.DEX_HOME;
+
+/* the background loop stops for anyone who asked for less motion, and while the tab is hidden */
 const heroVid = $('heroVid');
 if (heroVid) {
-  const still = matchMedia('(prefers-reduced-motion: reduce)');
   const apply = () => { if (still.matches || document.hidden) heroVid.pause(); else heroVid.play().catch(() => {}); };
   still.addEventListener('change', apply);
   document.addEventListener('visibilitychange', apply);
   heroVid.addEventListener('loadeddata', apply);
-  /* Safari can refuse the first autoplay: try again on the first thing the visitor does */
   ['pointerdown', 'scroll', 'keydown'].forEach(t => addEventListener(t, apply, { passive: true }));
   apply();
 }
 
-/* links and the receipt */
-$('xTop').href = $('xLink').href = S.X_URL;
-$('buyTop').href = $('buyLink').href = CA ? 'https://www.ponsfamily.com/launchpad/' + CA : window.PONS_HOME;
-$('chartLink').href = CA ? 'https://dexscreener.com/robinhood/' + CA : window.DEX_HOME;
+/* ---------------------------------------------------------------- the lid */
 $('caAddr').textContent = CA || 'soon';
 $('caAddr').classList.toggle('soon', !CA);
-$('slipState').textContent = CA ? 'live' : 'not launched yet';
+$('caSub').textContent = CA ? '$STIPS · Robinhood Chain' : 'not launched yet';
 async function copyCA(e) {
   if (e) e.stopPropagation();
-  const b = $('caCopy');
+  const b = $('caCopy'), lid = $('lid');
+  lid.classList.add('turn');
+  setTimeout(() => lid.classList.remove('turn'), 620);
   if (!CA) b.textContent = '[ NOT YET ]';
   else { try { await navigator.clipboard.writeText(CA); b.textContent = '[ COPIED ]'; } catch { b.textContent = '[ COPY FAILED ]'; } }
-  setTimeout(() => b.textContent = '[ COPY ]', 1400);
+  setTimeout(() => b.textContent = '[ COPY ]', 1500);
 }
 $('caCopy').onclick = copyCA;
-$('slip').addEventListener('click', e => { if (!e.target.closest('a')) copyCA(); });
-$('slip').addEventListener('keydown', e => { if (e.key === 'Enter') copyCA(); });
+$('lid').addEventListener('click', copyCA);
+$('lid').addEventListener('keydown', e => { if (e.key === 'Enter') copyCA(); });
 
-/* find a handle */
-const goHandle = () => {
-  const h = T.cleanHandle($('find').value);
-  if (!T.validHandle(h)) { $('find').focus(); return; }
-  location.href = '/@' + h;
-};
+/* ---------------------------------------------------------------- the jar: one coin per jar on Stock Tips, plus any you drop in */
+const cv = $('jar'), cx = cv.getContext('2d');
+const COINS = [];
+const GROUND = 468, LEFT = 96, RIGHT = 324, PER_ROW = 6, ROW_H = 21;
+/* coins land in rows rather than pretending to be physics: a stack that never leaves one hanging in mid air */
+function slot(i) {
+  const row = Math.floor(i / PER_ROW), col = i % PER_ROW;
+  const span = (RIGHT - LEFT) - 52, w = span / PER_ROW;
+  const x = LEFT + 26 + w * (col + .5) + (row % 2 ? w * .3 : -w * .3);
+  return { x: Math.max(LEFT + 24, Math.min(RIGHT - 24, x)), y: GROUND - 14 - row * ROW_H };
+}
+function addCoin(fromY) {
+  if (COINS.length > 150) return;
+  const s = slot(COINS.length);
+  /* with motion off, or the tab hidden (no animation frames run there), the coin is simply already in place */
+  const drop = !still.matches && !document.hidden;
+  COINS.push({ x: s.x, y: drop ? (fromY != null ? fromY : 150 - Math.random() * 40) : s.y, ty: s.y, vy: 0, r: 16 + Math.random() * 3, a: Math.random() * Math.PI, rest: !drop });
+}
+function step() {
+  for (const c of COINS) {
+    if (c.rest) continue;
+    c.vy += 0.62;
+    c.y += c.vy;
+    if (c.y >= c.ty) { c.y = c.ty; c.vy = 0; c.rest = true; }
+  }
+}
+function drawJar() {
+  cx.clearRect(0, 0, cv.width, cv.height);
+  /* glass */
+  cx.save();
+  cx.beginPath();
+  cx.moveTo(LEFT, 150);
+  cx.quadraticCurveTo(LEFT - 14, 320, LEFT + 4, 452);
+  cx.quadraticCurveTo(LEFT + 10, 476, LEFT + 40, 478);
+  cx.lineTo(RIGHT - 40, 478);
+  cx.quadraticCurveTo(RIGHT - 10, 476, RIGHT - 4, 452);
+  cx.quadraticCurveTo(RIGHT + 14, 320, RIGHT, 150);
+  cx.closePath();
+  cx.clip();
+  const g = cx.createLinearGradient(LEFT, 150, RIGHT, 478);
+  g.addColorStop(0, 'rgba(180,235,210,.10)');
+  g.addColorStop(1, 'rgba(120,200,170,.05)');
+  cx.fillStyle = g;
+  cx.fillRect(0, 0, cv.width, cv.height);
+  for (const c of COINS) {
+    cx.save();
+    cx.translate(c.x, c.y);
+    cx.rotate(Math.sin(c.a) * .3);
+    const cg = cx.createLinearGradient(-c.r, -c.r, c.r, c.r);
+    cg.addColorStop(0, '#ffe9ad');
+    cg.addColorStop(.5, '#e7b348');
+    cg.addColorStop(1, '#a87a1c');
+    cx.fillStyle = cg;
+    cx.beginPath();
+    cx.ellipse(0, 0, c.r, c.r * .62, 0, 0, Math.PI * 2);
+    cx.fill();
+    cx.strokeStyle = 'rgba(90,62,10,.5)';
+    cx.lineWidth = 1;
+    cx.stroke();
+    cx.restore();
+  }
+  cx.restore();
+  /* the glass itself, drawn over the coins */
+  cx.strokeStyle = 'rgba(190,240,215,.5)';
+  cx.lineWidth = 3;
+  cx.beginPath();
+  cx.moveTo(LEFT, 150);
+  cx.quadraticCurveTo(LEFT - 14, 320, LEFT + 4, 452);
+  cx.quadraticCurveTo(LEFT + 10, 476, LEFT + 40, 478);
+  cx.lineTo(RIGHT - 40, 478);
+  cx.quadraticCurveTo(RIGHT - 10, 476, RIGHT - 4, 452);
+  cx.quadraticCurveTo(RIGHT + 14, 320, RIGHT, 150);
+  cx.stroke();
+  /* the brass lid, the same object the contract is engraved on */
+  const lg = cx.createLinearGradient(LEFT - 16, 108, RIGHT + 16, 150);
+  lg.addColorStop(0, '#8a6a1e');
+  lg.addColorStop(.4, '#f0d494');
+  lg.addColorStop(.7, '#c49a3a');
+  lg.addColorStop(1, '#7d5f1c');
+  cx.fillStyle = lg;
+  cx.beginPath();
+  cx.roundRect(LEFT - 16, 112, (RIGHT + 16) - (LEFT - 16), 40, 9);
+  cx.fill();
+  cx.fillStyle = 'rgba(255,240,200,.25)';
+  cx.fillRect(LEFT - 16, 118, (RIGHT + 16) - (LEFT - 16), 3);
+  /* highlight */
+  cx.strokeStyle = 'rgba(255,255,255,.18)';
+  cx.lineWidth = 6;
+  cx.beginPath();
+  cx.moveTo(LEFT + 22, 200);
+  cx.quadraticCurveTo(LEFT + 8, 320, LEFT + 26, 430);
+  cx.stroke();
+}
+let raf = null;
+function loop() {
+  step();
+  drawJar();
+  if (COINS.some(c => !c.rest) && !still.matches) raf = requestAnimationFrame(loop);
+  else raf = null;
+}
+const kick = () => { if (!raf) raf = requestAnimationFrame(loop); };
+/* nothing animates in a hidden tab, so put everything where it belongs before it is looked at again */
+document.addEventListener('visibilitychange', () => {
+  if (!document.hidden) return kick();
+  for (const c of COINS) { c.y = c.ty; c.rest = true; }
+  drawJar();
+});
+cv.addEventListener('click', () => {
+  addCoin(140);
+  $('jarCap').innerHTML = `<b>${COINS.length}</b> coins in the jar`;
+  if (still.matches || document.hidden) drawJar(); else kick();
+});
+drawJar();
+
+/* ---------------------------------------------------------------- the deck */
+document.querySelectorAll('.tab').forEach(t => t.onclick = () => {
+  document.querySelectorAll('.tab').forEach(o => o.setAttribute('aria-selected', String(o === t)));
+  ['p1', 'p2', 'p3'].forEach(id => { $(id).hidden = id !== t.dataset.pane; });
+});
+
+const goHandle = () => { const h = T.cleanHandle($('find').value); if (T.validHandle(h)) location.href = '/@' + h; else $('find').focus(); };
 $('findGo').onclick = goHandle;
 $('find').addEventListener('keydown', e => { if (e.key === 'Enter') goHandle(); });
 
-/* jars */
 async function load() {
-  if (!T.FACTORY) { $('jarList').innerHTML = '<div class="empty">Jars appear here once Stock Tips is deployed</div>'; return; }
+  if (!T.FACTORY) {
+    $('jarList').innerHTML = '<div class="empty">Jars appear here once Stock Tips is deployed</div>';
+    $('jarCap').innerHTML = 'Tap the jar';
+    return;
+  }
   try {
-    const { coins, jars } = await T.loadAll();
-    const burn = await T.burnerStats().catch(() => null);
-    $('sJars').textContent = jars.length;
-    $('sCoins').textContent = coins.length;
-    $('sValue').textContent = T.fmtUsd(jars.reduce((s, j) => s + (j.usd || 0), 0));
-    $('sBurn').textContent = burn ? T.fmtNum(T.eth(burn.burnedEth), 3) + ' ETH' : '0 ETH';
+    const { jars } = await T.loadAll();
     $('jarList').innerHTML = jars.length ? jars.map(j => `
       <a class="jarcard" href="/@${esc(j.handle)}">
-        <div class="jh"><img src="https://unavatar.io/x/${esc(j.handle)}" alt="" loading="lazy" onerror="this.style.visibility='hidden'"><div><b>@${esc(j.handle)}</b><small>${j.coins.length} coin${j.coins.length === 1 ? '' : 's'}</small></div></div>
-        <div class="jv"><em>${T.fmtNum(T.shares(j.nvda), 4)}</em> NVDA</div>
-        <div class="jrow"><span>${T.fmtUsd(j.usd)}</span><span class="tag ${j.wallet && j.wallet !== '0x0000000000000000000000000000000000000000' ? 'paid' : ''}">${j.wallet && j.wallet !== '0x0000000000000000000000000000000000000000' ? 'claimed' : 'unclaimed'}</span></div>
+        <b>@${esc(j.handle)}</b>
+        <div class="v">${T.fmtUsd(j.usd)}</div>
+        <small>${T.fmtNum(T.shares(j.nvda), 4)} NVDA · ${j.wallet && j.wallet !== '0x0000000000000000000000000000000000000000' ? 'claimed' : 'unclaimed'}</small>
       </a>`).join('') : '<div class="empty">No jars yet, open the first coin</div>';
-  } catch (e) { $('jarList').innerHTML = `<div class="empty">Could not read the factory: ${esc(e.shortMessage || e.message)}</div>`; }
+    /* one coin for every jar that exists, dropped in as the page reads the chain */
+    const want = Math.min(120, jars.length);
+    let have = COINS.length;
+    for (let i = have; i < want; i++) setTimeout(() => { addCoin(); kick(); }, (i - have) * 90);
+    if (want) $('jarCap').innerHTML = `<b>${want}</b> jar${want === 1 ? '' : 's'} on Stock Tips · tap to add a coin`;
+  } catch (e) {
+    $('jarList').innerHTML = `<div class="empty">Could not read the factory: ${esc(e.shortMessage || e.message)}</div>`;
+  }
 }
 
-/* open a coin */
+/* ---------------------------------------------------------------- opening a coin */
 T.launchFee().then(f => { $('oFee').textContent = `Pons launch fee ${T.fmtNum(T.eth(f), 4)} ETH`; }).catch(() => {});
 $('oLogo').onchange = async e => {
   const f = e.target.files[0];
