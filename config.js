@@ -1,7 +1,7 @@
 /* ================= CONFIG: единственное место, где меняются данные ================= */
 window.SITE = {
   CA:      "SOON",                       /* строго "SOON" до лаунча, потом 0x… (42 символа) */
-  X_URL:   "https://x.com/soon",
+  X_URL:   "https://x.com/stocktipsfun_rh",
   NAME:    "Stock Tips",
   TICKER:  "$STIPS",
   TAGLINE: ""
