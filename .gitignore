@@ -6,3 +6,4 @@ assets/img/*_raw.png
 .vercel
 assets/video/hero_raw.mp4
 assets/video/hero_frame*.png
+assets/video/*_raw.mp4
