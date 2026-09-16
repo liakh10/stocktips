@@ -40,18 +40,22 @@ button,input,textarea{font:inherit;color:inherit}
 .top nav a:hover{color:var(--mint)}
 .top .r{margin-left:auto;display:flex;gap:8px;align-items:center}
 .icon{width:34px;height:34px;border-radius:9px;border:1px solid var(--line);display:grid;place-items:center}
-.hero{padding:64px 0 46px;display:grid;grid-template-columns:1.05fr .95fr;gap:30px;align-items:center}
-.hero h1{margin:0;font:400 clamp(34px,5.4vw,66px)/1.05 var(--d);letter-spacing:-.01em}
+.hero{position:relative;isolation:isolate;border-bottom:1px solid var(--line);min-height:clamp(470px,70vh,780px);display:flex;align-items:center}
+.heroIn{width:100%}
+.heroBg{position:absolute;inset:0;z-index:-1;overflow:hidden;background:var(--deep)}
+.heroBg video,.heroBg img.fallback{width:100%;height:100%;object-fit:cover;display:block;filter:brightness(1.14) saturate(1.06)}
+.heroBg::after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,rgba(5,22,16,.84) 0%,rgba(5,22,16,.6) 44%,rgba(5,22,16,.22) 100%),linear-gradient(180deg,rgba(5,22,16,.58) 0%,rgba(5,22,16,.1) 34%,rgba(7,32,26,.96) 100%)}
+.heroIn{padding:clamp(88px,17vh,178px) 0 clamp(52px,9vh,96px)}
+.kicker{display:inline-block;font-size:10px;letter-spacing:.17em;text-transform:uppercase;color:var(--mint);border:1px solid rgba(62,229,143,.35);border-radius:999px;padding:4px 12px;margin-bottom:18px}
+.hero h1{margin:0;font:400 clamp(34px,5.4vw,66px)/1.05 var(--d);letter-spacing:-.01em;max-width:16ch;text-shadow:0 2px 30px rgba(0,0,0,.6)}
 .hero h1 em{font-style:normal;color:var(--mint)}
-.hero p{margin:16px 0 0;color:var(--dim);max-width:52ch}
+.hero p{margin:16px 0 0;color:#b6cfc2;max-width:52ch}
 .find{display:flex;gap:8px;margin-top:22px;flex-wrap:wrap}
-.find .at{display:flex;align-items:center;border:1px solid var(--line);border-radius:12px;background:var(--deep);padding-left:12px;flex:1;min-width:220px}
+.find .at{display:flex;align-items:center;border:1px solid var(--line);border-radius:12px;background:rgba(5,22,16,.8);padding-left:12px;flex:1;min-width:220px;max-width:360px}
 .find .at span{color:var(--dim)}
 .find input{flex:1;height:44px;border:0;background:none;outline:0;padding:0 10px;min-width:0}
-.jarart{position:relative}
-.jarart img{width:100%;border-radius:20px;border:1px solid var(--line)}
-.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin:12px 0 0}
-.stat{border:1px solid var(--line);border-radius:14px;padding:12px;background:var(--panel)}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin:34px 0 0;max-width:720px}
+.stat{border:1px solid rgba(29,76,58,.9);border-radius:14px;padding:12px;background:rgba(12,42,32,.66);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px)}
 .stat span{display:block;font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--dim)}
 .stat b{font:400 20px var(--d)}
 section.band{padding:56px 0;border-top:1px solid var(--line);scroll-margin-top:60px}
@@ -100,7 +104,7 @@ section.band{padding:56px 0;border-top:1px solid var(--line);scroll-margin-top:6
 .slip .links{display:flex;gap:8px;justify-content:center;margin-top:16px;flex-wrap:wrap}
 .slip .btn{height:36px;font-size:11px;color:#21201c;border-color:#c9c2b0;background:#efe9da}
 .slip .btn.mint{color:#04180f}
-@media (max-width:920px){.hero{grid-template-columns:1fr;padding:38px 0 30px}.jarart{order:-1}.open{grid-template-columns:1fr}.steps{grid-template-columns:repeat(2,1fr)}.stats{grid-template-columns:repeat(2,1fr)}}
+@media (max-width:920px){.heroIn{padding:52px 0 40px}.hero h1{max-width:none}.open{grid-template-columns:1fr}.steps{grid-template-columns:repeat(2,1fr)}.stats{grid-template-columns:repeat(2,1fr)}.heroBg::after{background:linear-gradient(180deg,rgba(5,22,16,.8) 0%,rgba(5,22,16,.55) 30%,rgba(7,32,26,.97) 100%)}}
 @media (max-width:620px){.top nav{display:none}.two{grid-template-columns:1fr}.steps{grid-template-columns:1fr}.top .wrap{gap:10px}.brand b{font-size:16px}.brand img{width:28px;height:28px}#buyTop{display:none}}
 @media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}*{transition:none!important;animation:none!important}}
 </style>
@@ -116,8 +120,14 @@ section.band{padding:56px 0;border-top:1px solid var(--line);scroll-margin-top:6
   </div>
 </div></header>
 
-<section class="wrap hero">
-  <div>
+<section class="hero">
+  <div class="heroBg" id="heroBg">
+    <video id="heroVid" autoplay muted loop playsinline preload="auto" poster="/assets/video/hero-poster.jpg" aria-hidden="true" tabindex="-1">
+      <source src="/assets/video/hero.mp4" type="video/mp4">
+    </video>
+  </div>
+  <div class="wrap heroIn">
+    <span class="kicker">On Robinhood Chain · built for X</span>
     <h1>Every X handle gets <em>stock tips</em></h1>
     <p>Open a coin for any handle on Robinhood Chain. Its trading fees buy NVDA into that handle's jar, and only the handle can take it out</p>
     <div class="find">
@@ -131,7 +141,6 @@ section.band{padding:56px 0;border-top:1px solid var(--line);scroll-margin-top:6
       <div class="stat"><span>$STIPS burned</span><b id="sBurn">·</b></div>
     </div>
   </div>
-  <div class="jarart"><img src="/assets/img/jar.webp" alt="A glass tip jar with gold coins and rolled stock certificates"></div>
 </section>
 
 <section class="band" id="jars"><div class="wrap">
@@ -204,6 +213,17 @@ const $ = id => document.getElementById(id);
 const esc = s => String(s == null ? '' : s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
 const S = window.SITE, CA = /^0x[0-9a-fA-F]{40}$/.test(S.CA) ? S.CA : null;
 let logoData = '';
+
+/* the background loop is decoration: it stops for anyone who asked for less motion, and while the tab is hidden */
+const heroVid = $('heroVid');
+if (heroVid) {
+  const still = matchMedia('(prefers-reduced-motion: reduce)');
+  const apply = () => { if (still.matches || document.hidden) heroVid.pause(); else heroVid.play().catch(() => {}); };
+  still.addEventListener('change', apply);
+  document.addEventListener('visibilitychange', apply);
+  heroVid.addEventListener('error', () => { heroVid.hidden = true; }, true);
+  apply();
+}
 
 /* links and the receipt */
 $('xTop').href = $('xLink').href = S.X_URL;

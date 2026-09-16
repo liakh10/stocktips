@@ -3,3 +3,6 @@ node_modules/
 .vercel/
 contracts/node_modules/
 assets/img/*_raw.png
+.vercel
+assets/video/hero_raw.mp4
+assets/video/hero_frame*.png
