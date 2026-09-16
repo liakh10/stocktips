@@ -13,9 +13,15 @@
 <link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@600;700;800;900&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
-:root{--bg:#000;--card:#16181c;--card2:#202327;--line:#2f3336;--ink:#e7e9ea;--dim:#8b98a5;--mint:#3ee58f;--mint2:#7df5b6;--bad:#ff6b6b;--s:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;--m:'JetBrains Mono',ui-monospace,monospace}
+:root{--bg:#000;--card:#16181c;--card2:#202327;--line:#2f3336;--ink:#e7e9ea;--dim:#8b98a5;--mint:#3ee58f;--mint2:#7df5b6;--bad:#ff6b6b;--s:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;--dsp:'Archivo','Inter',sans-serif;--m:'JetBrains Mono',ui-monospace,monospace}
+::selection{background:rgba(62,229,143,.28);color:#fff}
+::-webkit-scrollbar{width:10px;height:10px}
+::-webkit-scrollbar-thumb{background:#2a2e33;border-radius:99px;border:3px solid #000}
+::-webkit-scrollbar-thumb:hover{background:#3a3f45}
+:focus-visible{outline:2px solid var(--mint);outline-offset:2px;border-radius:8px}
+.num{font-variant-numeric:tabular-nums;font-feature-settings:"tnum" 1}
 *{box-sizing:border-box}
 html{overflow-x:hidden;scroll-behavior:smooth}
 body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.55 var(--s);-webkit-font-smoothing:antialiased}
@@ -47,30 +53,40 @@ button,input,textarea{font:inherit;color:inherit}
 .hero{position:relative;overflow:hidden;border-bottom:1px solid var(--line)}
 .hero video,.hero .still{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:0}
 .hero::after{content:"";position:absolute;inset:0;z-index:1;background:linear-gradient(180deg,rgba(0,0,0,.72),rgba(0,0,0,.86) 55%,#000 100%)}
+/* a hairline grid under the hero, the only decoration the page allows itself */
+.hero .grid{position:absolute;inset:0;z-index:1;pointer-events:none;background-image:linear-gradient(90deg,rgba(255,255,255,.045) 1px,transparent 1px),linear-gradient(rgba(255,255,255,.045) 1px,transparent 1px);background-size:72px 72px;mask-image:radial-gradient(120% 85% at 50% 30%,#000 25%,transparent 78%);-webkit-mask-image:radial-gradient(120% 85% at 50% 30%,#000 25%,transparent 78%)}
 .hero .wrap{position:relative;z-index:2;padding:96px 0 44px}
-.kick{font:600 12px var(--s);letter-spacing:.14em;text-transform:uppercase;color:var(--dim);margin-bottom:22px}
-h1{margin:0;font:800 clamp(38px,7.4vw,88px)/1.02 var(--s);letter-spacing:-.035em;max-width:14ch}
+.kick{display:inline-flex;align-items:center;gap:9px;font:600 12px var(--s);letter-spacing:.14em;text-transform:uppercase;color:var(--dim);margin-bottom:22px;border:1px solid var(--line);border-radius:999px;padding:6px 14px 6px 11px;background:rgba(22,24,28,.7);backdrop-filter:blur(8px)}
+.kick i{width:6px;height:6px;border-radius:50%;background:var(--mint);box-shadow:0 0 0 4px rgba(62,229,143,.15)}
+h1{margin:0;font:800 clamp(38px,7.4vw,88px)/1 var(--dsp);letter-spacing:-.04em;max-width:14ch}
+h1 em{font-style:normal;background:linear-gradient(100deg,var(--mint) 10%,var(--mint2) 60%,#d6fbe8);-webkit-background-clip:text;background-clip:text;color:transparent}
 .hero p{margin:20px 0 0;color:var(--dim);max-width:56ch;font-size:16.5px}
 .cta{display:flex;gap:10px;margin-top:26px;flex-wrap:wrap}
 .metrics{display:grid;grid-template-columns:repeat(4,1fr);gap:0;border-top:1px solid var(--line);position:relative;z-index:2}
 .metrics div{padding:20px 0}
 .metrics span{display:block;font:600 11.5px var(--s);letter-spacing:.11em;text-transform:uppercase;color:var(--dim);margin-bottom:6px}
-.metrics b{font:700 26px var(--s);letter-spacing:-.02em}
+.metrics div{position:relative}
+.metrics div + div::before{content:"";position:absolute;left:-1px;top:20px;bottom:20px;width:1px;background:var(--line)}
+.metrics b{font:700 26px var(--dsp);letter-spacing:-.03em;font-variant-numeric:tabular-nums}
 .metrics b em{font-style:normal;font-size:14px;color:var(--dim);font-weight:500;margin-left:4px}
 
 /* sections */
 section.band{padding:64px 0;border-bottom:1px solid var(--line)}
 .eyebrow{display:flex;align-items:center;gap:9px;font:600 12px var(--s);letter-spacing:.14em;text-transform:uppercase;color:var(--dim);margin-bottom:14px}
 .dot{width:7px;height:7px;border-radius:50%;background:var(--mint);box-shadow:0 0 0 4px rgba(62,229,143,.16)}
-h2{margin:0 0 10px;font:700 clamp(24px,3.4vw,34px)/1.15 var(--s);letter-spacing:-.025em}
+h2{margin:0 0 10px;font:700 clamp(24px,3.4vw,34px)/1.12 var(--dsp);letter-spacing:-.03em}
 .lede{margin:0;color:var(--dim);max-width:70ch;font-size:15px}
 .shead{display:flex;justify-content:space-between;align-items:flex-end;gap:16px;flex-wrap:wrap;margin-bottom:22px}
 
 /* list of jars */
-.rows{border:1px solid var(--line);border-radius:16px;background:var(--card);overflow:hidden}
-.row{display:grid;grid-template-columns:minmax(0,1.5fr) repeat(3,minmax(0,1fr)) auto;gap:14px;align-items:center;padding:15px 18px;border-bottom:1px solid var(--line);text-decoration:none}
+.rows{border:1px solid var(--line);border-radius:16px;background:var(--card);overflow:hidden;position:relative}
+.rows::before{content:"";position:absolute;inset:0 0 auto;height:1px;background:linear-gradient(90deg,transparent,rgba(62,229,143,.5),transparent)}
+.row{display:grid;grid-template-columns:minmax(0,1.5fr) repeat(3,minmax(0,1fr)) auto;gap:14px;align-items:center;padding:15px 18px;border-bottom:1px solid var(--line);text-decoration:none;position:relative;transition:background .15s}
 .row:last-child{border-bottom:0}
 .row:hover{background:var(--card2)}
+/* how much of everything waiting sits in this one jar, drawn from the same numbers as the column */
+.row .share{position:absolute;left:0;right:0;bottom:0;height:2px;background:rgba(62,229,143,.14)}
+.row .share i{display:block;height:100%;background:linear-gradient(90deg,var(--mint),rgba(62,229,143,.25))}
 .row .who{display:flex;align-items:center;gap:11px;min-width:0}
 .row .who img{width:34px;height:34px;border-radius:999px;background:var(--card2);flex:none}
 .row .who b{font-weight:600;font-size:15px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
@@ -85,7 +101,8 @@ h2{margin:0 0 10px;font:700 clamp(24px,3.4vw,34px)/1.15 var(--s);letter-spacing:
 
 /* how it works */
 .steps{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
-.step{border:1px solid var(--line);border-radius:16px;background:var(--card);padding:20px}
+.step{border:1px solid var(--line);border-radius:16px;background:var(--card);padding:20px;position:relative;overflow:hidden}
+.step::after{content:"";position:absolute;top:-40%;right:-30%;width:70%;height:90%;background:radial-gradient(closest-side,rgba(62,229,143,.10),transparent);pointer-events:none}
 .step .n{width:26px;height:26px;border-radius:999px;background:var(--card2);border:1px solid var(--line);display:grid;place-items:center;font:600 13px var(--s);color:var(--mint);margin-bottom:12px}
 .step h3{margin:0 0 6px;font:600 17px var(--s);letter-spacing:-.01em}
 .step p{margin:0;color:var(--dim);font-size:14px}
@@ -94,7 +111,7 @@ h2{margin:0 0 10px;font:700 clamp(24px,3.4vw,34px)/1.15 var(--s);letter-spacing:
 .fees{display:grid;grid-template-columns:minmax(0,360px) minmax(0,1fr);gap:12px}
 .panel{border:1px solid var(--line);border-radius:16px;background:var(--card);padding:20px}
 .panel label{display:block;font:600 11.5px var(--s);letter-spacing:.1em;text-transform:uppercase;color:var(--dim)}
-.panel .val{font:700 32px var(--s);letter-spacing:-.03em;margin:6px 0 14px}
+.panel .val{font:700 32px var(--dsp);letter-spacing:-.035em;margin:6px 0 14px;font-variant-numeric:tabular-nums}
 input[type=range]{width:100%;accent-color:var(--mint);height:26px}
 .marks{display:flex;justify-content:space-between;font-size:12px;color:var(--dim)}
 .px{margin-top:16px;padding-top:14px;border-top:1px solid var(--line);display:grid;gap:7px;font-size:13.5px;color:var(--dim)}
@@ -106,20 +123,20 @@ input[type=range]{width:100%;accent-color:var(--mint);height:26px}
 .line .t,.line .v{position:relative;z-index:1}
 .line .t b{display:block;font-weight:600;font-size:15px}
 .line .t small{color:var(--dim);font-size:13px}
-.line .v{font:700 20px var(--s);letter-spacing:-.02em;white-space:nowrap}
+.line .v{font:700 20px var(--dsp);letter-spacing:-.03em;white-space:nowrap;font-variant-numeric:tabular-nums}
 .line.mint .v{color:var(--mint)}
 .line.zero .v{color:var(--dim)}
 .fineprint{margin:14px 0 0;color:var(--dim);font-size:13px}
 
 /* open a coin */
 .open{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,.85fr);gap:12px}
-.f{display:grid;gap:6px;margin-bottom:12px}
+.f{display:grid;gap:6px;margin-bottom:12px;min-width:0}
 .f label{font:600 11.5px var(--s);letter-spacing:.09em;text-transform:uppercase;color:var(--dim)}
 .f input,.f textarea{border:1px solid var(--line);border-radius:12px;background:#0b0d10;padding:12px 14px;outline:0;min-width:0;font-size:15px}
 .f input:focus,.f textarea:focus{border-color:var(--mint)}
 .f textarea{min-height:64px;resize:vertical}
 .two{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-.file{display:flex;align-items:center;gap:11px;border:1px solid var(--line);border-radius:12px;background:#0b0d10;padding:7px 12px 7px 7px;cursor:pointer;min-width:0}
+.file{display:flex;align-items:center;gap:11px;border:1px solid var(--line);border-radius:12px;background:#0b0d10;padding:7px 12px 7px 7px;cursor:pointer;min-width:0;max-width:100%;overflow:hidden}
 .file:hover{border-color:var(--mint)}
 .file .pick{border:1px solid var(--line);border-radius:999px;padding:7px 13px;font:600 12.5px var(--s);background:var(--card2);white-space:nowrap}
 .file .name{color:var(--dim);font-size:13px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;min-width:0}
@@ -142,7 +159,8 @@ input[type=range]{width:100%;accent-color:var(--mint);height:26px}
 .foot a{text-decoration:none}
 
 @media (max-width:980px){.metrics{grid-template-columns:repeat(2,1fr)}.metrics div{padding:16px 0}.steps{grid-template-columns:1fr}.fees,.open,.proof{grid-template-columns:1fr}.row{grid-template-columns:minmax(0,1.4fr) minmax(0,1fr) auto;gap:10px}.row .c.hide{display:none}}
-@media (max-width:640px){.top nav{display:none}.two{grid-template-columns:1fr}.hero .wrap{padding:60px 0 32px}h1{max-width:none}}
+@media (max-width:760px){#buyTop{display:none}}
+@media (max-width:640px){.top nav{display:none}.two{grid-template-columns:1fr}.hero .wrap{padding:60px 0 32px}h1{max-width:none}.top .wrap{gap:10px}.brand{font-size:15px}.brand img{width:24px;height:24px}}
 @media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}*{transition:none!important;animation:none!important}}
 </style>
 </head>
@@ -161,9 +179,10 @@ input[type=range]{width:100%;accent-color:var(--mint);height:26px}
   <video id="heroVid" autoplay muted loop playsinline preload="auto" poster="/assets/video/hero-poster.v3.jpg" aria-hidden="true" tabindex="-1">
     <source src="/assets/video/hero.v3.mp4" type="video/mp4">
   </video>
+  <div class="grid"></div>
   <div class="wrap">
-    <div class="kick">On Robinhood Chain · built for X</div>
-    <h1>A jar of NVDA for every X handle.</h1>
+    <div class="kick"><i></i>On Robinhood Chain · built for X</div>
+    <h1>A jar of <em>NVDA</em> for every X handle.</h1>
     <p>Open a coin for any handle on our factory. Its creator fees are claimed on chain and turned into NVDA inside that handle's jar. Only the handle can ever take it out.</p>
     <div class="cta">
       <a class="btn mint" href="#open">Open a coin</a>
@@ -173,10 +192,10 @@ input[type=range]{width:100%;accent-color:var(--mint);height:26px}
   </div>
   <div class="wrap">
     <div class="metrics">
-      <div><span>In jars</span><b id="mValue">·</b></div>
-      <div><span>NVDA bought</span><b id="mNvda">·</b></div>
-      <div><span>Jars</span><b id="mJars">·</b></div>
-      <div><span>Coins opened</span><b id="mCoins">·</b></div>
+      <div><span>In jars</span><b class="num" id="mValue">·</b></div>
+      <div><span>NVDA bought</span><b class="num" id="mNvda">·</b></div>
+      <div><span>Jars</span><b class="num" id="mJars">·</b></div>
+      <div><span>Coins opened</span><b class="num" id="mCoins">·</b></div>
     </div>
   </div>
 </section>
@@ -359,15 +378,18 @@ const ago = ts => { if (!ts) return ''; const s = Math.floor(Date.now() / 1000) 
 function paint() {
   const list = filter ? jars.filter(j => j.handle.includes(filter)) : jars;
   if (!T.FACTORY) return void ($('jarList').innerHTML = '<div class="empty">Jars appear here once Stock Tips is deployed.</div>');
+  const top = Math.max(1e-9, ...list.map(j => j.usd || 0));
   $('jarList').innerHTML = list.length ? list.map(j => {
     const claimed = j.wallet && j.wallet !== ZERO;
     const newest = j.coins && j.coins.length ? Math.max(...j.coins.map(c => c.createdAt)) : 0;
+    const share = Math.max(0, Math.min(100, ((j.usd || 0) / top) * 100));
     return `<a class="row" href="/@${esc(j.handle)}">
       <div class="who"><img src="https://unavatar.io/x/${esc(j.handle)}" alt="" loading="lazy" onerror="this.style.visibility='hidden'"><div><b>@${esc(j.handle)}</b><small>${j.coins.length} coin${j.coins.length === 1 ? '' : 's'}${newest ? ' · ' + ago(newest) : ''}</small></div></div>
-      <div class="c"><span>In the jar</span><b>${T.fmtUsd(j.usd)}</b></div>
-      <div class="c hide"><span>NVDA</span><b class="mono">${T.fmtNum(T.shares(j.nvda), 4)}</b></div>
-      <div class="c hide"><span>Claimed from Pons</span><b class="mono">${T.fmtNum(T.eth(j.totalClaimed), 4)} ETH</b></div>
+      <div class="c"><span>In the jar</span><b class="num">${T.fmtUsd(j.usd)}</b></div>
+      <div class="c hide"><span>NVDA</span><b class="mono num">${T.fmtNum(T.shares(j.nvda), 4)}</b></div>
+      <div class="c hide"><span>Claimed from Pons</span><b class="mono num">${T.fmtNum(T.eth(j.totalClaimed), 4)} ETH</b></div>
       <span class="chip ${claimed ? 'on' : ''}">${claimed ? 'claimed' : 'unclaimed'}</span>
+      <span class="share"><i style="width:${share.toFixed(1)}%"></i></span>
     </a>`;
   }).join('') : `<div class="empty">${filter ? 'No handle matches that search.' : 'No jars yet. Open the first coin below.'}</div>`;
 }
